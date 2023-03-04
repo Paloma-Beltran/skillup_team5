@@ -1,5 +1,42 @@
+:root{
+  --margin: 30px;
+  --fondo-navbar: #227;
+}
+
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+body{
+  min-height: 100vh;
+  font-family: sans-serif;
+}
+
+.contenedor{
+  width: 80%;
+  max-width: 1000px;
+  margin: var(--margin) auto;
+}
+
+/* NAVBAR */
+.navbar{
+  background: var(--fondo-navbar);
+  padding: 20px 30px;
+}
+.navbar__contenedor{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+:is(.navbar__paginas, .navbar__sesion){
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.navbar__link{
+  color: #fff;
+  text-decoration: none;
 }
