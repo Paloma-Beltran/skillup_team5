@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 
 import Navbar from './components/Navbar';
+import ScrollToTop from './components/ScrollToTop';
 
 import PaginaInicio from './pages/PaginaInicio';
 import PaginaOfertas from './pages/PaginaOfertas';
@@ -15,15 +16,17 @@ function App() {
   return (
     <Router>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<PaginaInicio />} />
-        <Route path="/ofertas" element={<PaginaOfertas />} />
-        <Route path="/cursos" element={<PaginaCursos />} />
-        <Route path="/registro" element={<PaginaRegistro />} />
-        <Route path="/inicio-sesion" element={<PaginaInicioSesion />} />
-        <Route path="/usuario/:id" element={<PaginaUsuario />} />
-        <Route path="/empresa/:id" element={<PaginaEmpresa />} />
-      </Routes>
+      <ScrollToTop>
+        <Routes>
+          <Route path="/" element={<PaginaInicio />} />
+          <Route path="/ofertas" element={<PaginaOfertas />} />
+          <Route path="/cursos" element={<PaginaCursos />} />
+          <Route path="/registro" element={<PaginaRegistro />} />
+          <Route path="/inicio-sesion" element={<PaginaInicioSesion />} />
+          <Route path="/usuario/:id" element={<PaginaUsuario />} />
+          <Route path="/empresa/:id" element={<PaginaEmpresa />} />
+        </Routes>
+      </ScrollToTop>
     </Router>
   )
 }
