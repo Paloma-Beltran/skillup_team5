@@ -13,6 +13,8 @@ import PaginaUsuario from './pages/PaginaUsuario';
 import PaginaEmpresa from './pages/PaginaEmpresa';
 
 function App() {
+  //! Crear un componente para suscribirse al evento onSnapshot y compartir los datos con el contexto (opcional)
+  //! También se pueden obtener los datos solo al renderizar el componente donde se utilicen
   return (
     <Router>
       <Navbar />

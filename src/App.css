@@ -73,6 +73,7 @@ body{
 /* INICIO HEADER */
 .header{
   min-height: calc(100vh - 60px);
+  min-height: calc(100svh - 60px);
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   justify-items: center;
