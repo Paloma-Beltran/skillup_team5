@@ -1,5 +1,5 @@
 :root{
-  --fondo-primario: #02a;
+  --color-primario: #02a;
 }
 
 *{
@@ -25,9 +25,9 @@ body{
 }
 .boton{
   padding: 10px 20px;
-  background: var(--fondo-primario);
+  background: var(--color-primario);
   color: #fff;
-  border: 3px solid var(--fondo-primario);
+  border: 3px solid var(--color-primario);
   border-radius: 5px;
   text-decoration: none;
   transition: .2s;
@@ -47,7 +47,7 @@ body{
   display: flex;
   align-items: center;
   padding: 20px 30px;
-  background: var(--fondo-primario);
+  background: var(--color-primario);
   z-index: 100;
 }
 .navbar__hamburguesa{
@@ -110,6 +110,63 @@ body{
   box-shadow: 0 0 5px #aaa;
 }
 
+/* PUBLICACIONES (OFERTAS, CURSOS) */
+.publicaciones{
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.publicacion{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 30px;
+  background: #eee;
+  text-align: justify;
+  border-radius: 3px;
+}
+.publicacion__estado{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.publicacion__estado-indicador{
+  width: 10px;
+  height: 10px;
+  background: green;
+  border-radius: 50%;
+}
+.publicacion__estado-indicador.inactiva{
+  background: red;
+}
+.publicacion__empresa{
+  margin-bottom: 15px;
+  color: #555;
+  font-size: 0.9em;
+  transition: .3s;
+}
+.publicacion__empresa:hover{
+  color: #000;
+}
+.publicacion__descripcion{
+  line-height: 1.5;
+}
+.publicacion > hr{
+  margin: 10px 0;
+}
+.publicacion__etiquetas{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.publicacion__etiqueta{
+  background: var(--color-primario);
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 3px;
+}
+
 /* PERFIL USUARIO */
 .usuario{
   display: grid;
@@ -157,6 +214,32 @@ body{
   text-align: justify;
 }
 
+/*! FORMULARIO PUBLICACIÓN */
+.publicar{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.publicar > div {
+  width: 90%;
+  margin: 10px auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.publicar input, .publicar select, .publicar textarea{
+  font-family: sans-serif;
+  font-size: 1em;
+  padding: 10px 20px;
+  flex-grow: 1;
+  outline: none;
+}
+.publicar textarea{
+  resize: none;
+}
+
 /*! MEDIA QUERIES */
 @media screen and (max-width: 768px){
   /* NAVBAR */
@@ -188,7 +271,7 @@ body{
     flex-direction: column-reverse;
     justify-content: center;
     align-items: center;
-    background-color: var(--fondo-primario);
+    background-color: var(--color-primario);
     text-align: center;
     clip-path: circle(0% at center);
     font-size: 1.2em;

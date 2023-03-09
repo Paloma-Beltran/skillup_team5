@@ -25,7 +25,7 @@ export async function crearOferta(data){
     let docRef = doc(db, "ofertas", fecha);
     // Se agrega ese documento con la información que se pasa como parámetro
     await setDoc(docRef, {...data, fecha});
-    console.log("Documento guardado", docRef);
+    console.log("Oferta guardada", docRef);
 
     return docRef;
 }
