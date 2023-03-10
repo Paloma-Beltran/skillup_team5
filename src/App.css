@@ -84,7 +84,12 @@ body{
 .header__img{
   width: 100%;
 }
-.header__texto{
+.header__parrafos{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.header__parrafo{
   text-align: justify;
   font-size: 1.2em;
   line-height: 1.2;
@@ -221,7 +226,7 @@ body{
   align-items: center;
   gap: 10px;
 }
-.publicar > div {
+.publicar__apartado {
   width: 90%;
   margin: 10px auto;
   display: flex;
@@ -229,15 +234,17 @@ body{
   flex-wrap: wrap;
   gap: 10px;
 }
-.publicar input, .publicar select, .publicar textarea{
-  font-family: sans-serif;
-  font-size: 1em;
+.publicar__input{
+  width: 100%;
   padding: 10px 20px;
   flex-grow: 1;
+  font-size: 1em;
+  font-family: sans-serif;
   outline: none;
-}
-.publicar textarea{
   resize: none;
+}
+.publicar__input--boton{
+  width: auto;
 }
 
 /*! MEDIA QUERIES */
@@ -290,7 +297,7 @@ body{
     opacity: 1;
   }
   /* INICIO */
-  .header__texto{
+  .header__parrafo{
     font-size: 1em;
   }
   /* PERFIL USUARIO */

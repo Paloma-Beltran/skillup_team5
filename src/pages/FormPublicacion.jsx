@@ -1,8 +1,8 @@
-import { useRef, useState } from "react";
-import { crearOferta } from "../firebase";
+import { useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
+import { crearCurso, crearOferta } from "../firebase";
 
 function FormPublicacion(){
-    let form = useRef();
     let [tipo, setTipo] = useState("");
     let [publicacion, setPublicacion] = useState({
         estado: 1,
@@ -21,9 +21,13 @@ function FormPublicacion(){
         console.log(publicacion);
 
         // Ahora se manda a la base de datos
+        //! La fecha se agrega automáticamente
         if(tipo == "Oferta"){
-            //! La fecha se agrega automáticamente
             crearOferta(publicacion);
+            toast.success("Oferta publicada");
+        } else if(tipo == "Curso"){
+            crearCurso(publicacion);
+            toast.success("Curso publicado");
         }
 
         // Limpiamos los campos y el estado
@@ -69,79 +73,101 @@ function FormPublicacion(){
 
     return(
         <div className="contenedor">
+            <Toaster />
             <h1 className="titulo">Crear publicación</h1>
-            <form className="publicar" onSubmit={handleSubmit} ref={form}>
-                <div>
+            <form className="publicar" onSubmit={handleSubmit}>
+                <div className="publicar__apartado">
                     <label htmlFor="tipo">Tipo de publicación</label>
-                    <select name="tipo"
-                            id="tipo"
-                            onInput={handleInput}
-                            value={tipo}
-                            required>
+                    <select
+                        name="tipo"
+                        id="tipo"
+                        className="publicar__input"
+                        onInput={handleInput}
+                        value={tipo}
+                        required
+                    >
                         <option value="">Elige una opción</option>
                         <option value="Oferta">Oferta</option>
                         <option value="Curso">Curso</option>
                     </select>
                 </div>
 
-                <div>
+                <div className="publicar__apartado">
                     <label htmlFor="titulo">Titulo</label>
-                    <input name="titulo"
-                            id="titulo"
-                            type="text"
-                            onInput={handleInput}
-                            value={publicacion.titulo}
-                            required />
+                    <input
+                        name="titulo"
+                        id="titulo"
+                        className="publicar__input"
+                        type="text"
+                        onInput={handleInput}
+                        value={publicacion.titulo}
+                        required
+                    />
                 </div>
 
-                <div>
+                <div className="publicar__apartado">
                     <label htmlFor="descripcion">Descripción</label>
-                    <textarea name="descripcion"
-                            id="descripcion"
-                            cols="30"
-                            rows="10"
-                            onInput={handleInput}
-                            value={publicacion.descripcion}
-                            required></textarea>
+                    <textarea
+                        name="descripcion"
+                        id="descripcion"
+                        className="publicar__input"
+                        cols="30"
+                        rows="10"
+                        onInput={handleInput}
+                        value={publicacion.descripcion}
+                        required>
+                    </textarea>
                 </div>
 
-                <div>
+                <div className="publicar__apartado">
                     <label htmlFor="dinero">Sueldo o costo</label>
-                    <input name="dinero"
-                            input="dinero"
-                            type="text"
-                            onInput={handleInput}
-                            value={publicacion.dinero}
-                            required />
+                    <input
+                        name="dinero"
+                        input="dinero"
+                        className="publicar__input"
+                        type="text"
+                        onInput={handleInput}
+                        value={publicacion.dinero}
+                        required
+                    />
                 </div>
 
-                <div>
+                <div className="publicar__apartado">
                     <label htmlFor="duracion">Duración</label>
-                    <input name="duracion"
-                            id="duracion"
-                            type="text"
-                            onInput={handleInput}
-                            value={publicacion.duracion}
-                            required />
+                    <input
+                        name="duracion"
+                        id="duracion"
+                        className="publicar__input"
+                        type="text"
+                        onInput={handleInput}
+                        value={publicacion.duracion}
+                        required
+                    />
                 </div>
 
-                <div>
+                <div className="publicar__apartado">
                     <label htmlFor="dirigido">Dirigido a</label>
-                    <input name="dirigido"
-                            id="dirigido"
-                            type="text"
-                            onInput={handleInput}
-                            value={publicacion.dirigido}
-                            required />
+                    <input
+                        name="dirigido"
+                        id="dirigido"
+                        className="publicar__input"
+                        type="text"
+                        onInput={handleInput}
+                        value={publicacion.dirigido}
+                        required
+                    />
                 </div>
 
-                <div>
+                <div className="publicar__apartado">
                     <label htmlFor="modalidad">Modalidad</label>
-                    <select name="modalidad"
-                            id="modalidad"
-                            onInput={handleInput}
-                            value={publicacion.modalidad}
-                            required>
+                    <select
+                        name="modalidad"
+                        id="modalidad"
+                        className="publicar__input"
+                        onInput={handleInput}
+                        value={publicacion.modalidad}
+                        required
+                    >
                         <option value="">Elige una opción</option>
                         <option value="Presencial">Presencial</option>
                         <option value="Virtual">Virtual</option>
@@ -149,16 +175,19 @@ function FormPublicacion(){
                     </select>
                 </div>
 
-                <div>
+                <div className="publicar__apartado">
                     <label htmlFor="etiquetas">Separar con ","</label>
-                    <input name="etiquetas"
-                            id="etiquetas"
-                            type="text"
-                            onInput={handleInput}
-                            value={publicacion.etiquetas} />
+                    <input
+                        name="etiquetas"
+                        id="etiquetas"
+                        className="publicar__input"
+                        type="text"
+                        onInput={handleInput}
+                        value={publicacion.etiquetas}
+                    />
                 </div>
 
-                <input type="submit" className="boton" value="Publicar" />
+                <input type="submit" className="publicar__input publicar__input--boton boton" value="Publicar" />
             </form>
         </div>
     )

@@ -7,8 +7,10 @@ function PaginaInicio(){
                 <img src="skillup-logo.png" className="header__img" alt="Logo SkillUp" />
                 <div>
                     <h1 className="titulo">SkillUp</h1>
-                    <p className="header__texto">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga, perspiciatis obcaecati. Velit, autem? Ratione optio et commodi quibusdam voluptate veniam quidem? Blanditiis placeat hic unde expedita, nulla veritatis optio atque.</p>
-                    <p className="header__texto">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                    <div className="header__parrafos">
+                        <p className="header__parrafo">SkillUp es una plataforma que permite a los estudiantes y recién egresados de instituciones universitarias en el país encontrar oportunidades, así como mejorar su red de contactos con el fin de generar o mejorar una carrera profesional y facilitar su inserción en el mercado laboral.</p>
+                        <p className="header__parrafo">Con esto buscamos poner las oportunidades existentes al alcance de todo aquel que las requiera y que por diversas razones no llegan al conocimiento general.</p>
+                    </div>
                     <div className="header__botones">
                         <Link to="/ofertas" className="boton">Ofertas</Link>
                         <Link to="/cursos" className="boton">Cursos</Link>

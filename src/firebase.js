@@ -19,27 +19,47 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 //! Funciones firebase
-export async function crearOferta(data){
+async function crearDocumento(coleccion, data){
     let fecha = Date.now().toString();
     // Se crea un documento y se le agrega como id la fecha
-    let docRef = doc(db, "ofertas", fecha);
+    let docRef = doc(db, coleccion, fecha);
     // Se agrega ese documento con la información que se pasa como parámetro
     await setDoc(docRef, {...data, fecha});
-    console.log("Oferta guardada", docRef);
+}
 
-    return docRef;
+async function obtenerDocumentos(coleccion){
+    // Se crea la query ordenando los datos por fecha
+    let q = query(collection(db, coleccion), orderBy("fecha"));
+    // Se piden los datos
+    let res = await getDocs(q);
+    // Se recorren las documentos y se guardan en un arreglo con objetos que contienen la id y la información
+    let documentos = res.docs.map(doc => {
+        return {id: doc.id, data: doc.data()}
+    });
+    
+    return documentos;
+}
+
+export function crearOferta(data){
+    console.log("Oferta creada");
+
+    return crearDocumento("ofertas", data);
+}
+
+export function crearCurso(data){
+    console.log("Curso creado");
+
+    return crearDocumento("cursos", data);
 }
 
 export async function obtenerOfertas(){
-    // Se crea la query ordenando los datos por fecha
-    let q = query(collection(db, "ofertas"), orderBy("fecha"));
-    // Se piden los datos
-    let res = await getDocs(q);
-    // Se recorren las ofertas y se guardan en un arreglo con objetos que contienen la id y la información
-    let ofertas = res.docs.map(doc => {
-        return {id: doc.id, data: doc.data()}
-    });
-    // console.log(ofertas);
-    
-    return ofertas;
+    console.log("Obteniendo ofertas");
+
+    return obtenerDocumentos("ofertas");
+}
+
+export async function obtenerCursos(){
+    console.log("Obteniendo cursos");
+
+    return obtenerDocumentos("cursos");
 }
