@@ -1,5 +1,7 @@
 :root{
   --color-primario: #02a;
+  --switch-inactivo: transparent;
+  --switch-activo: darkgreen;
 }
 
 *{
@@ -36,6 +38,28 @@ body{
   background: #fff;
   color: #000;
 }
+.switch{
+  appearance: none;
+  position: relative;
+  padding: 10px 20px;
+  background: var(--switch-inactivo);
+  border: 1px solid #fff;
+  border-radius: 20px;
+  transition: .3s;
+  outline: none;
+}
+.switch::after{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px;
+  background: #fff;
+  border-radius: 50%;
+  transition: .3s;
+}
+.switch:checked{ background: var(--switch-activo); }
+.switch:checked::after{ left: 50%; }
 
 /* NAVBAR */
 .navbar{
@@ -100,6 +124,7 @@ body{
   justify-content: space-evenly;
 }
 
+/* EMPRESAS AFILIADAS */
 .empresas{
   background: #ccc;
   padding: 0.1px; /* evitar margin collapse */
@@ -111,8 +136,32 @@ body{
 }
 .empresas__img{
   width: 100%;
-  border-radius: 5px;
+  border-radius: 3px;
   box-shadow: 0 0 5px #aaa;
+}
+
+/* FILTROS DE PUBLICACIONES */
+.filtros{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: var(--color-primario);
+  color: #fff;
+  border-radius: 3px;
+}
+.filtros__filtro{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.filtros__filtro--busqueda input{
+  width: 100%;
+  padding: 5px 10px;
+  font-size: 1em;
+  font-family: sans-serif;
+  outline: none;
 }
 
 /* PUBLICACIONES (OFERTAS, CURSOS) */
