@@ -33,7 +33,7 @@ function Publicacion({ documento: doc, tipo }){
             <div className="publicacion__etiquetas">
                 <b>Etiquetas: </b>
                 {
-                    doc.data.etiquetas ? (
+                    doc.data.etiquetas.length > 0 ? (
                         doc.data.etiquetas.map(etiqueta => (
                             <span className="publicacion__etiqueta" key={etiqueta}>{etiqueta}</span>
                         ))

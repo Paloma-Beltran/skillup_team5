@@ -1,5 +1,5 @@
 import { useState } from "react";
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { crearCurso, crearOferta } from "../firebase";
 
 function FormPublicacion(){
@@ -73,15 +73,15 @@ function FormPublicacion(){
 
     return(
         <div className="contenedor">
-            <Toaster />
             <h1 className="titulo">Crear publicación</h1>
-            <form className="publicar" onSubmit={handleSubmit}>
-                <div className="publicar__apartado">
+
+            <form className="form" onSubmit={handleSubmit}>
+                <div className="form__apartado">
                     <label htmlFor="tipo">Tipo de publicación</label>
                     <select
                         name="tipo"
                         id="tipo"
-                        className="publicar__input"
+                        className="form__input"
                         onInput={handleInput}
                         value={tipo}
                         required
@@ -92,12 +92,12 @@ function FormPublicacion(){
                     </select>
                 </div>
 
-                <div className="publicar__apartado">
+                <div className="form__apartado">
                     <label htmlFor="titulo">Titulo</label>
                     <input
                         name="titulo"
                         id="titulo"
-                        className="publicar__input"
+                        className="form__input"
                         type="text"
                         onInput={handleInput}
                         value={publicacion.titulo}
@@ -105,12 +105,12 @@ function FormPublicacion(){
                     />
                 </div>
 
-                <div className="publicar__apartado">
+                <div className="form__apartado">
                     <label htmlFor="descripcion">Descripción</label>
                     <textarea
                         name="descripcion"
                         id="descripcion"
-                        className="publicar__input"
+                        className="form__input"
                         cols="30"
                         rows="10"
                         onInput={handleInput}
@@ -119,12 +119,12 @@ function FormPublicacion(){
                     </textarea>
                 </div>
 
-                <div className="publicar__apartado">
+                <div className="form__apartado">
                     <label htmlFor="dinero">Sueldo o costo</label>
                     <input
                         name="dinero"
                         input="dinero"
-                        className="publicar__input"
+                        className="form__input"
                         type="text"
                         onInput={handleInput}
                         value={publicacion.dinero}
@@ -132,12 +132,12 @@ function FormPublicacion(){
                     />
                 </div>
 
-                <div className="publicar__apartado">
+                <div className="form__apartado">
                     <label htmlFor="duracion">Duración</label>
                     <input
                         name="duracion"
                         id="duracion"
-                        className="publicar__input"
+                        className="form__input"
                         type="text"
                         onInput={handleInput}
                         value={publicacion.duracion}
@@ -145,12 +145,12 @@ function FormPublicacion(){
                     />
                 </div>
 
-                <div className="publicar__apartado">
+                <div className="form__apartado">
                     <label htmlFor="dirigido">Dirigido a</label>
                     <input
                         name="dirigido"
                         id="dirigido"
-                        className="publicar__input"
+                        className="form__input"
                         type="text"
                         onInput={handleInput}
                         value={publicacion.dirigido}
@@ -158,12 +158,12 @@ function FormPublicacion(){
                     />
                 </div>
 
-                <div className="publicar__apartado">
+                <div className="form__apartado">
                     <label htmlFor="modalidad">Modalidad</label>
                     <select
                         name="modalidad"
                         id="modalidad"
-                        className="publicar__input"
+                        className="form__input"
                         onInput={handleInput}
                         value={publicacion.modalidad}
                         required
@@ -175,19 +175,19 @@ function FormPublicacion(){
                     </select>
                 </div>
 
-                <div className="publicar__apartado">
-                    <label htmlFor="etiquetas">Separar con ","</label>
+                <div className="form__apartado">
+                    <label htmlFor="etiquetas">Etiquetas (Separar con ",")</label>
                     <input
                         name="etiquetas"
                         id="etiquetas"
-                        className="publicar__input"
+                        className="form__input"
                         type="text"
                         onInput={handleInput}
                         value={publicacion.etiquetas}
                     />
                 </div>
 
-                <input type="submit" className="publicar__input publicar__input--boton boton" value="Publicar" />
+                <input type="submit" className="form__input form__input--boton boton" value="Publicar" />
             </form>
         </div>
     )
