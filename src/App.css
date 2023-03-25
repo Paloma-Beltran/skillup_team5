@@ -268,14 +268,14 @@ body{
   text-align: justify;
 }
 
-/*! FORMULARIO PUBLICACIÓN */
-.publicar{
+/*! FORMULARIO PUBLICACIÓN Y FORMULARIOS REGISTRO E INICIO DE SESIÓN */
+.form{
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
 }
-.publicar__apartado {
+.form__apartado {
   width: 90%;
   margin: 10px auto;
   display: flex;
@@ -283,7 +283,7 @@ body{
   flex-wrap: wrap;
   gap: 10px;
 }
-.publicar__input{
+.form__input{
   width: 100%;
   padding: 10px 20px;
   flex-grow: 1;
@@ -292,7 +292,7 @@ body{
   outline: none;
   resize: none;
 }
-.publicar__input--boton{
+.form__input--boton{
   width: auto;
 }
 
