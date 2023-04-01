@@ -2,9 +2,13 @@ import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
+import { useAuth } from "../context/AuthContext";
+
 // Ver si se necesita hacer un registro para cada rol o si simplemente se selecciona con un boton el rol
 function PaginaRegistro(){
+    const { registrarUsuario } = useAuth();
     const navigate = useNavigate();
+
     const [rol, setRol] = useState("");
     const [datos, setDatos] = useState({
         correo: "",
@@ -16,18 +20,33 @@ function PaginaRegistro(){
         habilidades: ""
     });
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault();
-
-        toast.success("Registro exitoso");
-
+        
         //! Agregar a los datos el rol para poder registrar
         //! Agregar la fecha de registro
         //! Al saber el rol, solo elegir los datos necesarios
         //! ID del documento (fecha de registro o podría ser crypto.getRandomUUID() pero no creo :D)
+        try{
+            await registrarUsuario(datos.correo, datos.contrasena);
 
-        navigate("/");
-        // navigate(`/usuario/${idUsuario}`);
+            // console.log("Usuario registrado correctamente");
+            toast.success("Registro exitoso");
+
+            navigate("/");
+            // navigate(`/usuario/${idUsuario}`);
+        } catch(err){
+            // console.log({err});
+            if(err.code == "auth/email-already-in-use"){
+                toast.error("Correo en uso");
+            } else if(err.code == "auth/weak-password"){
+                toast.error("La contraseña debe tener al menos 6 caracteres");
+            } else if(err.code == "auth/invalid-email"){
+                toast.error("Correo inválido");
+            } else {
+                toast.error("Hubo un error, revise los datos nuevamente");
+            }
+        }
     }
     
     const handleInput = e => {

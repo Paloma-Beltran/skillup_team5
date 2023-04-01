@@ -1,12 +1,16 @@
 import { useRef } from "react";
 import { NavLink } from "react-router-dom";
 
+import { useAuth } from "../context/AuthContext";
+
 function Navbar(){
     // <NavLink to="/" style={({isActive}) => ({
     //     background: isActive && "red"
     // })}>Inicio</NavLink>
 
-    let menu = useRef();
+    const { user, cerrarSesion } = useAuth();
+
+    const menu = useRef();
 
     const handleMenu = () => {
         menu.current.classList.toggle("activo");
@@ -14,6 +18,15 @@ function Navbar(){
 
     const closeMenu = () => {
         menu.current.classList.remove("activo");
+    }
+
+    const handleCerrarSesion = async () => {
+        try{
+            await cerrarSesion();
+            // Aquí no se usa navigate porque se ejecuta con el NavLink que ya redirecciona a la página de inicio
+        } catch(err){
+            console.log({err});
+        }
     }
 
     return(
@@ -27,10 +40,18 @@ function Navbar(){
                     <NavLink className="navbar__link" to="/cursos" onClick={closeMenu}>Cursos</NavLink>
                     <NavLink className="navbar__link" to="/publicar" onClick={closeMenu}>Publicar</NavLink>
                 </div>
-                <div className="navbar__sesion">
-                    <NavLink className="navbar__link" to="/registro" onClick={closeMenu}>Registrarse</NavLink>
-                    <NavLink className="navbar__link" to="/inicio-sesion" onClick={closeMenu}>Iniciar sesión</NavLink>
-                </div>
+                {
+                    user == null ? (
+                        <div className="navbar__sesion">
+                            <NavLink className="navbar__link" to="/registro" onClick={closeMenu}>Registrarse</NavLink>
+                            <NavLink className="navbar__link" to="/inicio-sesion" onClick={closeMenu}>Iniciar sesión</NavLink>
+                        </div>
+                    ) : (
+                        <div className="navbar__sesion">
+                            <NavLink className="navbar__link" to="/" onClick={handleCerrarSesion}>Cerrar sesión</NavLink>
+                        </div>
+                    )
+                }
             </div>
             <div className="navbar__hamburguesa" onClick={handleMenu}>
                 <div className="linea"></div>

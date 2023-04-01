@@ -295,6 +295,16 @@ body{
 .form__input--boton{
   width: auto;
 }
+.form__restablecer{
+  margin-top: 20px;
+  color: #00f;
+  font-size: 1em;
+  font-weight: bold;
+  text-decoration: none;
+}
+.form__restablecer:hover{
+  color: #44f;
+}
 
 /*! MEDIA QUERIES */
 @media screen and (max-width: 768px){

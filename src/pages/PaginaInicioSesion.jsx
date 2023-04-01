@@ -2,19 +2,39 @@ import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
+import { useAuth } from "../context/AuthContext";
+
 function PaginaInicioSesion(){
+    const { iniciarSesion, restablecerContrasena } = useAuth();
     const navigate = useNavigate();
+
     const [datos, setDatos] = useState({
         correo: "",
         contrasena: ""
     });
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault();
 
-        toast.success("Inicio de sesión exitoso");
+        try{
+            await iniciarSesion(datos.correo, datos.contrasena);
 
-        navigate("/");
+            // console.log("Inicio de sesión exitoso");
+            toast.success("Inicio de sesión exitoso");
+            
+            navigate("/");
+        } catch(err){
+            // console.log({err});
+            if(err.code == "auth/user-not-found"){
+                toast.error("Usuario no encontrado");
+            } else if (err.code == "auth/wrong-password") {
+                toast.error("Contraseña incorrecta");
+            } else if (err.code == "auth/too-many-requests"){
+                toast.error("Demasiados intentos");
+            } else {
+                toast.error("Hubo un error, revise los datos nuevamente");
+            }
+        }
     }
     
     const handleInput = e => {
@@ -22,6 +42,27 @@ function PaginaInicioSesion(){
             ...datos,
             [e.target.name]: e.target.value
         })
+    }
+
+    const handleRestablecerContrasena = async () => {
+        if(!datos.correo) toast.error("Introduce tu correo electrónico para restablecer la contraseña");
+        
+        try{
+            await restablecerContrasena(datos.correo);
+
+            // console.log("Correo enviado para restablecer contraseña");
+            toast.success("Correo enviado para restablecer contraseña");
+        } catch(err){
+            // console.log({err});
+            
+            if(err.code == "auth/user-not-found"){
+                toast.error("Correo no encontrado");
+            } else if(err.code == "auth/invalid-email"){
+                toast.error("Correo inválido");
+            } else {
+                toast.error("Hubo un error, revise los datos nuevamente");
+            }
+        }
     }
 
     return(
@@ -57,6 +98,8 @@ function PaginaInicioSesion(){
                 </div>
 
                 <input type="submit" className="form__input form__input--boton boton" value="Iniciar Sesión" />
+
+                <a href="#" class="form__restablecer" onClick={handleRestablecerContrasena}>Olvidé mi contraseña</a>
             </form>
         </div>
     )
