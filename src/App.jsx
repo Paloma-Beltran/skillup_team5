@@ -3,6 +3,9 @@ import './App.css';
 
 import Navbar from './components/Navbar';
 import ScrollToTop from './components/ScrollToTop';
+import AuthProtectedRoute from './components/AuthProtectedRoute';
+
+import AuthProvider from './context/AuthContext';
 
 import PaginaInicio from './pages/PaginaInicio';
 import PaginaOfertas from './pages/PaginaOfertas';
@@ -14,7 +17,6 @@ import PaginaEmpresa from './pages/PaginaEmpresa';
 import FormPublicacion from './pages/FormPublicacion';
 
 import { Toaster } from 'react-hot-toast';
-import AuthProvider from './context/AuthContext';
 
 function App() {
   //! Crear un componente para suscribirse al evento onSnapshot y compartir los datos con el contexto (opcional)
@@ -31,9 +33,17 @@ function App() {
             <Route path="/cursos" element={<PaginaCursos />} />
             <Route path="/registro" element={<PaginaRegistro />} />
             <Route path="/inicio-sesion" element={<PaginaInicioSesion />} />
-            <Route path="/usuario/:id" element={<PaginaUsuario />} />
+            <Route path="/usuario/:id" element={
+              <AuthProtectedRoute>
+                <PaginaUsuario />
+              </AuthProtectedRoute>
+            } />
             <Route path="/empresa/:id" element={<PaginaEmpresa />} />
-            <Route path="/publicar" element={<FormPublicacion />} />
+            <Route path="/publicar" element={
+              <AuthProtectedRoute soloEmpresas>
+                <FormPublicacion />
+              </AuthProtectedRoute>
+            } />
           </Routes>
         </ScrollToTop>
       </Router>

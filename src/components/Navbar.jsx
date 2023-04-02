@@ -4,11 +4,7 @@ import { NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 function Navbar(){
-    // <NavLink to="/" style={({isActive}) => ({
-    //     background: isActive && "red"
-    // })}>Inicio</NavLink>
-
-    const { user, cerrarSesion } = useAuth();
+    const { usuario, cerrarSesion } = useAuth();
 
     const menu = useRef();
 
@@ -23,7 +19,7 @@ function Navbar(){
     const handleCerrarSesion = async () => {
         try{
             await cerrarSesion();
-            // Aquí no se usa navigate porque se ejecuta con el NavLink que ya redirecciona a la página de inicio
+            //? Aquí no se usa navigate porque se ejecuta con el NavLink que ya redirecciona a la página de inicio
         } catch(err){
             console.log({err});
         }
@@ -38,10 +34,14 @@ function Navbar(){
                     <NavLink className="navbar__link" to="/" onClick={closeMenu}>Inicio</NavLink>
                     <NavLink className="navbar__link" to="/ofertas" onClick={closeMenu}>Ofertas</NavLink>
                     <NavLink className="navbar__link" to="/cursos" onClick={closeMenu}>Cursos</NavLink>
-                    <NavLink className="navbar__link" to="/publicar" onClick={closeMenu}>Publicar</NavLink>
+                    {
+                        usuario && usuario.rol == "empresa" && (
+                            <NavLink className="navbar__link" to="/publicar" onClick={closeMenu}>Publicar</NavLink>
+                        )
+                    }
                 </div>
                 {
-                    user == null ? (
+                    usuario == null ? (
                         <div className="navbar__sesion">
                             <NavLink className="navbar__link" to="/registro" onClick={closeMenu}>Registrarse</NavLink>
                             <NavLink className="navbar__link" to="/inicio-sesion" onClick={closeMenu}>Iniciar sesión</NavLink>

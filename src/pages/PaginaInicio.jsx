@@ -36,8 +36,8 @@ function PaginaInicio(){
             </div>
             <div className="contenedor">
                 <h2>Enlaces de ejemplo para ver el diseño de los perfiles</h2>
-                <Link to="/usuario/1">Usuario 1</Link><br />
-                <Link to="/empresa/2">Empresa 2</Link>
+                <Link to="/usuario/LiUfH3T5mebZ5kVWHn36wlmJkq53">Usuario ejemplo</Link><br />
+                <Link to="/empresa/tAWgMnurKKZTm4HZkhwpadkuEIJ2">Empresa ejemplo</Link>
             </div>
         </>
     )

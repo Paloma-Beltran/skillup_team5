@@ -99,7 +99,7 @@ function PaginaInicioSesion(){
 
                 <input type="submit" className="form__input form__input--boton boton" value="Iniciar Sesión" />
 
-                <a href="#" class="form__restablecer" onClick={handleRestablecerContrasena}>Olvidé mi contraseña</a>
+                <a href="#" className="form__restablecer" onClick={handleRestablecerContrasena}>Olvidé mi contraseña</a>
             </form>
         </div>
     )

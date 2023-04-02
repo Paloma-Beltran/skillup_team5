@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthContext";
 
 // Ver si se necesita hacer un registro para cada rol o si simplemente se selecciona con un boton el rol
 function PaginaRegistro(){
-    const { registrarUsuario } = useAuth();
+    const { registrarUsuario, registrarUsuarioFirestore } = useAuth();
     const navigate = useNavigate();
 
     const [rol, setRol] = useState("");
@@ -23,12 +23,33 @@ function PaginaRegistro(){
     const handleSubmit = async e => {
         e.preventDefault();
         
-        //! Agregar a los datos el rol para poder registrar
-        //! Agregar la fecha de registro
-        //! Al saber el rol, solo elegir los datos necesarios
-        //! ID del documento (fecha de registro o podría ser crypto.getRandomUUID() pero no creo :D)
         try{
-            await registrarUsuario(datos.correo, datos.contrasena);
+            // Se registra el usuario en firebase/auth
+            let { user } = await registrarUsuario(datos.correo, datos.contrasena);
+            
+            // Datos que llevan todos los usuarios
+            let data = {
+                id: user.uid,
+                rol,
+                correo: datos.correo,
+                nombre: datos.nombre,
+                descripcion: datos.descripcion
+            }
+
+            // Se agregan los datos específicos de cada usuario
+            if(rol == "usuario"){
+                data = {
+                    ...data,
+                    carrera: datos.carrera,
+                    institucion: datos.institucion,
+                    habilidades: datos.habilidades
+                }
+            } else if(rol == "empresa"){
+                // Por ahora no guardamos datos específicos para las empresas
+            }
+
+            // Se registra el usuario en firebase/firestore (base de datos)
+            await registrarUsuarioFirestore(data);
 
             // console.log("Usuario registrado correctamente");
             toast.success("Registro exitoso");
@@ -36,7 +57,7 @@ function PaginaRegistro(){
             navigate("/");
             // navigate(`/usuario/${idUsuario}`);
         } catch(err){
-            // console.log({err});
+            console.log({err});
             if(err.code == "auth/email-already-in-use"){
                 toast.error("Correo en uso");
             } else if(err.code == "auth/weak-password"){

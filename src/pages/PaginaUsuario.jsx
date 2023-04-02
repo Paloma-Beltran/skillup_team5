@@ -1,29 +1,34 @@
 import { useParams } from "react-router-dom";
+import { useDataUser } from "../hooks/useDataUser";
 
 function PaginaUsuario(){
-    // let { id } = useParams();
+    let { id: uid } = useParams();
+    const {cargando, datosUsuario} = useDataUser(uid);
+
+    // Si está cargando se muestra el texto
+    if(cargando) return <h2 className="contenedor titulo">Cargando perfil...</h2>
+
+    // Si los datos de ese perfil no existen o si el rol no es usuario
+    if(!datosUsuario || datosUsuario.rol != "usuario") return <h2 className="contenedor titulo">Perfil de usuario no existente</h2>
 
     return(
         <div className="usuario contenedor">
             <div className="usuario__datos">
                 <img src="https://i.pravatar.cc/100" className="usuario__img" alt="Foto de perfil del usuario" />
                 <div className="usuario__informacion">
-                    <h2 className="usuario__nombre">Fernando Manuel De Alba Orozco</h2>
-                    <p className="usuario__carrera">Ingeniería Informática</p>
-                    <p className="usuario__centro">CUCEI</p>
+                    <h2 className="usuario__nombre">{datosUsuario.nombre}</h2>
+                    <p className="usuario__carrera">{datosUsuario.carrera}</p>
+                    <p className="usuario__centro">{datosUsuario.institucion}</p>
                 </div>
             </div>
             <div className="usuario__textos">
                 <div className="usuario__texto">
                     <h2 className="usuario__titulo">Descripción</h2>
-                    <p className="usuario__parrafo">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laborum, voluptate velit iste et aut sapiente animi. Id rem repellat natus minima reprehenderit! Et magni praesentium velit necessitatibus, ea alias laboriosam?</p>
+                    <p className="usuario__parrafo">{datosUsuario.descripcion}</p>
                 </div>
                 <div className="usuario__texto">
                     <h2 className="usuario__titulo">Habilidades</h2>
-                    <p className="usuario__parrafo">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laborum, voluptate velit iste et aut sapiente animi. Id rem repellat natus minima reprehenderit! Et magni praesentium velit necessitatibus, ea alias laboriosam?</p>
-                    <p className="usuario__parrafo">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laborum, voluptate velit iste et aut sapiente animi. Id rem repellat natus minima reprehenderit! Et magni praesentium velit necessitatibus, ea alias laboriosam?</p>
-                    <p className="usuario__parrafo">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laborum, voluptate velit iste et aut sapiente animi. Id rem repellat natus minima reprehenderit! Et magni praesentium velit necessitatibus, ea alias laboriosam?</p>
-                    <p className="usuario__parrafo">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laborum, voluptate velit iste et aut sapiente animi. Id rem repellat natus minima reprehenderit! Et magni praesentium velit necessitatibus, ea alias laboriosam?</p>
+                    <p className="usuario__parrafo">{datosUsuario.habilidades}</p>
                 </div>
             </div>
         </div>

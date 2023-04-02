@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, doc, setDoc, getDocs, orderBy, query } from "firebase/firestore";
+import { getFirestore, collection, doc, setDoc, getDocs, orderBy, query, getDoc } from "firebase/firestore";
 import { getAuth } from 'firebase/auth';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -64,4 +64,13 @@ export async function obtenerCursos(){
     console.log("Obteniendo cursos");
 
     return obtenerDocumentos("cursos");
+}
+
+export async function obtenerUsuario(uid){
+    // Obtiene los datos de un usuario para mostrar el perfil
+    let docRef = doc(db, "usuarios", uid);
+    let documento = await getDoc(docRef);
+    let data = documento.data();
+
+    return data;
 }

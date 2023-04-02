@@ -1,4 +1,8 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase';
+
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../firebase';
 
@@ -12,17 +16,21 @@ export const useAuth = () => {
 }
 
 function AuthProvider({ children }){
-    //! TAMBIEN REGISTRAR EN LA BASE DE DATOS
-    //! EN LOS PARAMETROS PASAR EL OBJETO COMPLETO CON LA INFORMACION
-    //! REGISTRAR EN LA BASE DE DATOS CON LOS DATOS COMPLETOS
-    //! DEPENDIENDO DEL ROL, ELEGIR LA FORMA DE REGISTRARLO EN LA BASE DE DATOS
-    //! REGISTRAR EN AUTH CON CORREO Y CONTRASEÑA
     const [user, setUser] = useState(null);
+    const [cargando, setCargando] = useState(true);
 
     const registrarUsuario = (correo, contrasena) => {
         // console.log("Registrando usuario:", {correo, contrasena});
 
         return createUserWithEmailAndPassword(auth, correo, contrasena);
+    }
+
+    const registrarUsuarioFirestore = (datos) => {
+        // console.log("Registrando usuario en firebase:", {datos});
+
+        let docRef = doc(db, "usuarios", datos.id);
+
+        return setDoc(docRef, {...datos, fechaRegistro: Date.now()});
     }
 
     const iniciarSesion = (correo, contrasena) => {
@@ -45,17 +53,30 @@ function AuthProvider({ children }){
 
     // Al iniciar la aplicación se suscribe al evento para obtener los cambios en el auth
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, currentUser => {
-            //! Al cambiar el usuario, obtener su uid y buscar en la base de datos su información para agregarla al user y poder verificar los roles y demás cosas
-            // console.log(currentUser);
-            setUser(currentUser);
+        const unsubscribe = onAuthStateChanged(auth, async currentUser => {
+            setCargando(true);
+
+            if(currentUser){
+                // Se obtienen los datos de firestore para tener el rol y las demás cosas
+                let docRef = doc(db, "usuarios", currentUser.uid);
+                let res = await getDoc(docRef);
+                let datosFS = res.data();
+
+                setUser({
+                    id: currentUser.uid,
+                    ...datosFS
+                })
+            } else {
+                setUser(currentUser);
+            }
+            setCargando(false);
         })
          
         return () => unsubscribe();
     }, [])
 
     return(
-        <authContext.Provider value={{ user, registrarUsuario, iniciarSesion, cerrarSesion, restablecerContrasena }}>
+        <authContext.Provider value={{ cargandoUsuario: cargando, usuario: user, registrarUsuario, iniciarSesion, cerrarSesion, restablecerContrasena, registrarUsuarioFirestore }}>
             { children }
         </authContext.Provider>
     )
