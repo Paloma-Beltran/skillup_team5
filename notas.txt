@@ -1,9 +1,10 @@
+Pedir los demás datos al registrar
+- Telefono
+- Direccion (empresa)
+
 Nombre de la empresa con su link en las ofertas o cursos
 Poner boton "me interesa"
 Registrar con número de telefono
-
-Crear un componente para suscribirse al evento onSnapshot y compartir los datos con el contexto (opcional)
-También se pueden obtener los datos solo al renderizar el componente donde se utilicen
 
 
 Para editar un curso:
@@ -12,144 +13,19 @@ Solo esa misma empresa puede ver botones para editar cada publicación, el boton
 Crear otro formulario para editar la publicación y al guardar se actualiza en la base de datos
 
 Editar perfil (boton para editar perfil), abrir otro formulario dependiendo del rol para rellenar los datos que se pueden cambiar
+comprobar con (usuario.uid == datosUsuario.id)
+
+Al publicar, guardar la publicacion con el uid de la empresa (para mostrar el nombre obtener la empresa con una funcion)
+
+Boton me interesa
+- Listar los interesados en la publicacion
 
 
-Agregar validación de correo y recuperación de contraseña
 
-
-
-
-
-
-
-COSAS RARAS QUE PUEDEN SERVIR DESPUES JAJA
-
-
-// REGISTRAR A UN USUARIO (CREAR LA FUNCION EN firebase.js)
-createUserWithEmailAndPassword(auth, email, password)
-.then((userCredential) => {
-	// Usuario registrado
-	//! Poner esto en el context
-	const user = userCredential.user;
-}).catch((error) => {
-	const errorCode = error.code;
-    const errorMessage = error.message;
-});
-
-// INICIAR SESIÓN (CREAR LA FUNCION EN firebase.js)
-signInWithEmailAndPassword(auth, email, password)
-.then((userCredential) => {
-    // Sesión iniciada
-    //! Poner en el contexto
-    const user = userCredential.user;
-}).catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-});
-
-// VERIFICAR CAMBIOS EN EL ESTADO DEL LOGIN
-// SUSCRIBIRSE A ESTA FUNCION EN EL CONTEXTO YA QUE ENGLOBA TODA LA APLICACIÓN
-onAuthStateChanged(auth, (user) => {
-	if (user) {
-    	// User is signed in, see docs for a list of available properties
-    	// https://firebase.google.com/docs/reference/js/firebase.User
-    	const uid = user.uid;
-	} else {
-    	// User is signed out
-    	// ...
-	}
-});
-
-// VERIFICAR CORREO ELECTRÓNICO
+Agregar validación de correo
 // Info email template https://support.google.com/firebase/answer/7000714
 sendEmailVerification(auth.currentUser)
 .then(() => {
     // Email verification sent!
     // ...
 });
-
-// RESETEAR CONTRASEÑA
-sendPasswordResetEmail(auth, email)
-.then(() => {
-    // Password reset email sent!
-    // ..
-}).catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // ..
-});
-
-
-
-
-
-// CREO QUE ESTO SIRVE PARA DEJAR ACCEDER A UNA RUTA SOLO SI EL USUARIO INICIÓ SESIÓN
-// SIRVE PARA /publicar, pero además se debe verificar el rol
-ProtectedRoute.jsx
-
-import { useAuth } from "../context/AuthContext";
-import { Navigate } from "react-router-dom";
-
-function RutaProtegida({ children }){
-	const { user } = useAuth();
-
-	if(!user) return <Navigate to="/login">
-
-	return <>{children}</>
-}
-
-export default RutaProtegida;
-
-
-
-
-
-Se necesita crear un contexto para compartir los datos entre componentes
-Carpeta "context" - archivo "AuthContext.jsx"
-
-import { createContext } from 'react';
-
-export const authContext = createContext();
-
-function AuthProvider({ children }){
-	let user = {
-		// ...
-	}
-
-	const registrar = (email, pass) => {
-
-	}
-
-	return(
-		<authContext.Provider value={{user: ..., registrar}}>
-			{children}
-		</authContext.Provider>
-	)
-}
-
-export default AuthProvider;
-
-
-
-
-
-
-
-
-
-NOTAS RARAS:
-// Para usar el contexto solo importamos useAuth() y con eso obtenemos el valor del value del context provider
-// Por ejemplo al registrarse en el submit del formulario de registro usamos useNavigate de react-router-dom
-
-
-
-
-
-
-
-/*
-Hacer perfil de las empresas
-Después del auth, ver si los componentes se pueden dividir (opcional)
-
-Al tener los roles, si es una empresa, poner un boton para publicar, que lleve a otra página con un formulario
-*/

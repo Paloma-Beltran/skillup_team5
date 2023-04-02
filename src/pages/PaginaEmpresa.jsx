@@ -1,9 +1,11 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDataUser } from "../hooks/useDataUser";
+import { useAuth } from "../context/AuthContext";
 
 function PaginaUsuario(){
     let { id: uid } = useParams();
     const {cargando, datosUsuario} = useDataUser(uid);
+    const { usuario } = useAuth();
 
     // Si está cargando se muestra el texto
     if(cargando) return <h2 className="contenedor titulo">Cargando perfil...</h2>
@@ -16,6 +18,12 @@ function PaginaUsuario(){
             <div className="usuario__datos">
                 <img src="https://i.pravatar.cc/100" className="usuario__img" alt="Foto de perfil del usuario" />
                 <div className="usuario__informacion">
+                    {
+                        // Si es dueño del perfil, se muestra el boton para editar
+                        usuario != null && uid == usuario.id && (
+                            <Link to="/editar-perfil">Editar perfil</Link>
+                        )
+                    }
                     <h2 className="usuario__nombre">{datosUsuario.nombre}</h2>
                 </div>
             </div>

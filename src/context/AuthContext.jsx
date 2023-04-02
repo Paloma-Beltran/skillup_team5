@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'firebase/auth';
@@ -51,6 +51,21 @@ function AuthProvider({ children }){
         return sendPasswordResetEmail(auth, correo);
     }
 
+    const editarPerfil = (uid, datos) => {
+        let docRef = doc(db, "usuarios", uid);
+        return updateDoc(docRef, datos);
+    }
+
+    const actualizarUsuario = async (uid) => {
+        setCargando(true);
+        let docRef = doc(db, "usuarios", uid);
+        let res = await getDoc(docRef);
+        let datosFS = res.data();
+        
+        setUser(datosFS);
+        setCargando(false);
+    }
+
     // Al iniciar la aplicación se suscribe al evento para obtener los cambios en el auth
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async currentUser => {
@@ -58,14 +73,8 @@ function AuthProvider({ children }){
 
             if(currentUser){
                 // Se obtienen los datos de firestore para tener el rol y las demás cosas
-                let docRef = doc(db, "usuarios", currentUser.uid);
-                let res = await getDoc(docRef);
-                let datosFS = res.data();
-
-                setUser({
-                    id: currentUser.uid,
-                    ...datosFS
-                })
+                // Tenemos que usar await para que espere y no salgan errores antes de obtener el usuario
+                await actualizarUsuario(currentUser.uid);
             } else {
                 setUser(currentUser);
             }
@@ -76,7 +85,7 @@ function AuthProvider({ children }){
     }, [])
 
     return(
-        <authContext.Provider value={{ cargandoUsuario: cargando, usuario: user, registrarUsuario, iniciarSesion, cerrarSesion, restablecerContrasena, registrarUsuarioFirestore }}>
+        <authContext.Provider value={{ cargandoUsuario: cargando, usuario: user, registrarUsuario, iniciarSesion, cerrarSesion, restablecerContrasena, registrarUsuarioFirestore, editarPerfil, actualizarUsuario }}>
             { children }
         </authContext.Provider>
     )

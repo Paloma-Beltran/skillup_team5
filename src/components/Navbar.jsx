@@ -19,6 +19,7 @@ function Navbar(){
     const handleCerrarSesion = async () => {
         try{
             await cerrarSesion();
+            closeMenu();
             //? Aquí no se usa navigate porque se ejecuta con el NavLink que ya redirecciona a la página de inicio
         } catch(err){
             console.log({err});
@@ -48,6 +49,7 @@ function Navbar(){
                         </div>
                     ) : (
                         <div className="navbar__sesion">
+                            <NavLink className="navbar__link" to={`/${usuario.rol}/${usuario.id}`} onClick={closeMenu}>Mi perfil</NavLink>
                             <NavLink className="navbar__link" to="/" onClick={handleCerrarSesion}>Cerrar sesión</NavLink>
                         </div>
                     )

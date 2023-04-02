@@ -15,6 +15,7 @@ import PaginaInicioSesion from './pages/PaginaInicioSesion';
 import PaginaUsuario from './pages/PaginaUsuario';
 import PaginaEmpresa from './pages/PaginaEmpresa';
 import FormPublicacion from './pages/FormPublicacion';
+import FormEditarPerfil from './pages/FormEditarPerfil';
 
 import { Toaster } from 'react-hot-toast';
 
@@ -33,6 +34,11 @@ function App() {
             <Route path="/cursos" element={<PaginaCursos />} />
             <Route path="/registro" element={<PaginaRegistro />} />
             <Route path="/inicio-sesion" element={<PaginaInicioSesion />} />
+            <Route path="/editar-perfil" element={
+              <AuthProtectedRoute>
+                <FormEditarPerfil />
+              </AuthProtectedRoute>
+            } />
             <Route path="/usuario/:id" element={
               <AuthProtectedRoute>
                 <PaginaUsuario />
