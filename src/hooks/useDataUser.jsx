@@ -14,7 +14,7 @@ function useDataUser(uid){
             setCargando(false);
         }
         obtenerPerfilUsuario();
-    }, []);
+    }, [uid]); // Cada que cambie el uid del parametro, se actualizan los datos
 
     return { cargando, datosUsuario };
 }

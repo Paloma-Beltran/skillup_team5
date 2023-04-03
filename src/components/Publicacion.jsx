@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { obtenerUsuario } from "../firebase";
 
 function Publicacion({ documento: doc, tipo }){
     /* 
@@ -12,8 +14,17 @@ function Publicacion({ documento: doc, tipo }){
         modalidad       Modalidad
         etiquetas       Etiquetas personalizables
     */
-    //! PONER NOMBRE DE LA EMPRESA CON SU LINK
     //! PONER BOTON "ME INTERESA"
+    const [nombreEmpresa, setNombreEmpresa] = useState("");
+    // Se obtiene el nombre de la empresa con el id (se debe obtener aquí por si el nombre fue cambiado recientemente)
+    useEffect(() => {
+        const obtenerNombreEmpresa = async () => {
+            let { nombre } = await obtenerUsuario(doc.data.idEmpresa);
+            setNombreEmpresa(nombre);
+        }
+        obtenerNombreEmpresa();
+    }, [])
+
     return(
         <div className="publicacion" key={doc.id}>
             {/* <p>ID: {doc.id}</p> */}
@@ -22,7 +33,7 @@ function Publicacion({ documento: doc, tipo }){
                 <div className={`publicacion__estado-indicador ${!doc.data.estado && "inactiva"}`}></div>
                 <p className="publicacion__estado-texto">{doc.data.estado ? "Activa" : "Inactiva"}</p>
             </div>
-            <Link to="#" className="publicacion__empresa">Nombre empresa</Link>
+            <Link to={`/empresa/${doc.data.idEmpresa}`} className="publicacion__empresa">{nombreEmpresa}</Link>
             <b>Descripción:</b>
             <p className="publicacion__descripcion">{doc.data.descripcion}</p>
             <hr />

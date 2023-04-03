@@ -134,6 +134,19 @@ function FormEditarPerfil(){
                             </div>
 
                             <div className="form__apartado">
+                                <label htmlFor="direccion">Dirección</label>
+                                <input
+                                    name="direccion"
+                                    id="direccion"
+                                    className="form__input"
+                                    type="text"
+                                    onInput={handleInput}
+                                    value={datos.direccion}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form__apartado">
                                 <label htmlFor="descripcion">Descripción</label>
                                 <textarea
                                     name="descripcion"

@@ -14,8 +14,7 @@ function PaginaOfertas(){
         <div className="contenedor">
             <h1 className="titulo">Ofertas de trabajo</h1>
 
-            <FiltroPublicaciones publicaciones={ofertas} setFiltradas={setFiltradas} />            
-
+            <FiltroPublicaciones publicaciones={ofertas} setFiltradas={setFiltradas} />
 
             <div className="publicaciones">
                 <p className="publicaciones__total">Total: {filtradas.length}</p>
@@ -27,7 +26,7 @@ function PaginaOfertas(){
                         filtradas.length ? (
                             //Si hay publicaciones, se muestran
                             filtradas.map(doc => (
-                                <Publicacion documento={doc}  tipo={"oferta"} key={doc.id} />
+                                <Publicacion documento={doc} tipo={"oferta"} key={doc.id} />
                             ))
                         ) : (
                             // Si no hay publicaciones, se muestra que no hay ofertas

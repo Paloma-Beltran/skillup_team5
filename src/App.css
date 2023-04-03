@@ -242,6 +242,31 @@ body{
   flex-direction: column;
   gap: 10px;
 }
+.usuario__editar{
+  --colorIcono: #fff;
+
+  font-size: .9em;
+  width: max-content;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--color-primario);
+  color: #fff;
+  border: 2px solid var(--color-primario);
+  border-radius: 15px;
+  text-decoration: none;
+  transition: .2s;
+}
+.usuario__editar:hover{
+  --colorIcono: var(--color-primario);
+  background: transparent;
+  color: #000;
+}
+.usuario__editar-icon{
+  color: var(--colorIcono);
+  transition: .2s;
+}
 .usuario__img{
   width: 90%;
   max-width: 100px;

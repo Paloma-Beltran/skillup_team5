@@ -26,7 +26,7 @@ function PaginaCursos(){
                         filtradas.length ? (
                             //Si hay publicaciones, se muestran
                             filtradas.map(doc => (
-                                <Publicacion documento={doc}  tipo={"curso"} key={doc.id} />
+                                <Publicacion documento={doc} tipo={"curso"} key={doc.id} />
                             ))
                         ) : (
                             // Si no hay publicaciones, se muestra que no hay cursos

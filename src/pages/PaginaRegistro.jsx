@@ -17,7 +17,8 @@ function PaginaRegistro(){
         carrera: "",
         institucion: "",
         descripcion: "",
-        habilidades: ""
+        habilidades: "",
+        direccion: ""
     });
 
     const handleSubmit = async e => {
@@ -46,6 +47,10 @@ function PaginaRegistro(){
                 }
             } else if(rol == "empresa"){
                 // Por ahora no guardamos datos específicos para las empresas
+                data = {
+                    ...data,
+                    direccion: datos.direccion
+                }
             }
 
             // Se registra el usuario en firebase/firestore (base de datos)
@@ -167,6 +172,19 @@ function PaginaRegistro(){
                                 />
                             </div>
 
+                            {/* <div className="form__apartado">
+                                <label htmlFor="telefono">Número de teléfono</label>
+                                <input
+                                    name="telefono"
+                                    id="telefono"
+                                    className="form__input"
+                                    type="number"
+                                    onInput={handleInput}
+                                    value={datos.telefono}
+                                    required
+                                />
+                            </div> */}
+
                             <div className="form__apartado">
                                 <label htmlFor="descripcion">Descripción</label>
                                 <textarea
@@ -210,6 +228,19 @@ function PaginaRegistro(){
                                         type="text"
                                         onInput={handleInput}
                                         value={datos.nombre}
+                                        required
+                                    />
+                                </div>
+
+                                <div className="form__apartado">
+                                    <label htmlFor="direccion">Dirección</label>
+                                    <input
+                                        name="direccion"
+                                        id="direccion"
+                                        className="form__input"
+                                        type="text"
+                                        onInput={handleInput}
+                                        value={datos.direccion}
                                         required
                                     />
                                 </div>

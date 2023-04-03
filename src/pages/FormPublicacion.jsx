@@ -1,8 +1,10 @@
 import { useState } from "react";
 import toast from 'react-hot-toast';
 import { crearCurso, crearOferta } from "../firebase";
+import { useAuth } from "../context/AuthContext";
 
 function FormPublicacion(){
+    const { usuario } = useAuth(); // Para guardar el uid de la empresa en la publicación
     let [tipo, setTipo] = useState("");
     let [publicacion, setPublicacion] = useState({
         estado: 1,
@@ -18,15 +20,19 @@ function FormPublicacion(){
     const handleSubmit = e => {
         e.preventDefault();
 
-        console.log(publicacion);
+        let nuevaPublicacion = {
+            ...publicacion,
+            idEmpresa: usuario.id
+        }
 
         // Ahora se manda a la base de datos
         //! La fecha se agrega automáticamente
         if(tipo == "Oferta"){
-            crearOferta(publicacion);
+            // Se agrega el id de la empresa para el link desde la publicación
+            crearOferta(nuevaPublicacion);
             toast.success("Oferta publicada");
         } else if(tipo == "Curso"){
-            crearCurso(publicacion);
+            crearCurso(nuevaPublicacion);
             toast.success("Curso publicado");
         }
 
