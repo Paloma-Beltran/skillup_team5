@@ -15,7 +15,7 @@ function useDocs(callback){
         guardarDocumentos();
     }, [])
 
-    return { cargando, documentos };
+    return { cargando, documentos, setDocumentos };
 }
 
 export { useDocs };

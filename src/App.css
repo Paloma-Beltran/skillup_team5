@@ -184,6 +184,7 @@ body{
 }
 .publicacion__estado{
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 10px;
 }
@@ -197,9 +198,8 @@ body{
   background: red;
 }
 .publicacion__estado-boton{
-  margin-left: 10px;
   padding: 5px 10px;
-  font-size: 1em;
+  font-size: .9em;
 }
 .publicacion__empresa{
   width: max-content;
@@ -368,7 +368,7 @@ body{
     left: 0;
     width: 100%;
     height: calc(100vh - 60px);
-    flex-direction: column-reverse;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: var(--color-primario);

@@ -4,7 +4,7 @@ import { cambiarEstadoPublicacion, obtenerUsuario } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-hot-toast";
 
-function Publicacion({ documento: doc, tipo, pagina = undefined }){
+function Publicacion({ documento: doc, tipo, actualizarEstadoDocumento=null }){
     /* 
         titulo          Titulo
         estado          Estado verde o rojo
@@ -18,7 +18,6 @@ function Publicacion({ documento: doc, tipo, pagina = undefined }){
     */
     // Se guarda el estado para poder actualizar la interfaz y para utilizarlo al cambiarlo en la base de datos
     const [estado, setEstado] = useState(doc.data.estado);
-    // El nombre de la empresa se obtiene al cargar para mostrar en las publicaciones
     const [nombreEmpresa, setNombreEmpresa] = useState("");
     // Si el usuario actual es el dueño de la publicación aparecerá un boton para cambiar el estado
     const [creador, setCreador] = useState(false);
@@ -34,7 +33,7 @@ function Publicacion({ documento: doc, tipo, pagina = undefined }){
     }, [])
     
     useEffect(() => {
-        // Verificar si es el dueño de la publicacion
+        // Verificar si es el dueño de la publicación para mostrar el boton de activar o desactivar
         setCreador(false);
         if(usuario && usuario.id == doc.data.idEmpresa){
             setCreador(true);
@@ -43,18 +42,24 @@ function Publicacion({ documento: doc, tipo, pagina = undefined }){
 
     const toggleEstado = async (docId) => {
         try{
+            let nuevoEstado = (estado + 1) % 2;
             // Cambiar el estado de la publicación en la base de datos
-            // El estado nuevo está entre 0 y 1
-            await cambiarEstadoPublicacion(docId, (estado + 1) % 2, tipo); 
+            await cambiarEstadoPublicacion(docId, nuevoEstado, tipo); 
 
             // Cambiar el estado de la publicación en el frontend
-            if((estado + 1) % 2 == 1){
+            setEstado(nuevoEstado);
+
+            // Actualizar en el arreglo de documentos (Sirve para el filtro)
+            // Si se edita desde el perfil no se necesita actualizar el arreglo de documentos, solo el frontend y la db
+            if(actualizarEstadoDocumento != null) actualizarEstadoDocumento(docId, nuevoEstado);
+
+            if(nuevoEstado == 1){
                 toast.success("Publicación activada");
             } else {
                 toast.success("Publicación desactivada");
             }
-            setEstado((estado + 1) % 2);
         } catch(err){
+            // console.log({err});
             toast.error("Hubo un error al cambiar el estado");
         }
     }
@@ -67,8 +72,7 @@ function Publicacion({ documento: doc, tipo, pagina = undefined }){
                 <div className={`publicacion__estado-indicador ${estado == 0 && "inactiva"}`}></div>
                 <p className="publicacion__estado-texto">{estado == 1 ? "Activa" : "Inactiva"}</p>
                 {
-                    // Solo se muestra si es creador de la publicación y si está en su perfil
-                    pagina == "perfil" && creador && (
+                    creador && (
                         <button onClick={() => toggleEstado(doc.id)} className="boton publicacion__estado-boton">
                             {estado == 1 ? "Desactivar" : "Activar"}
                         </button>
