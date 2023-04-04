@@ -72,7 +72,7 @@ function PaginaEmpresa(){
                     {
                         ofertas.length > 0 ? (
                             ofertas.map(oferta => (
-                                <Publicacion documento={oferta} tipo="oferta" key={oferta.id} />
+                                <Publicacion documento={oferta} tipo="oferta" pagina="perfil" key={oferta.id} />
                             ))
                         ) : (
                             <p>No hay ofertas disponibles</p>
@@ -85,7 +85,7 @@ function PaginaEmpresa(){
                     {
                         cursos.length > 0 ? (
                             cursos.map(curso => (
-                                <Publicacion documento={curso} tipo="curso" key={curso.id} />
+                                <Publicacion documento={curso} tipo="curso" pagina="perfil" key={curso.id} />
                             ))
                         ) : (
                             <p>No hay cursos disponibles</p>

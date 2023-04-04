@@ -1,10 +1,29 @@
 Pedir los demás datos al registrar
 - Telefono
 
-Boton me interesa
+Boton me interesa (Solo aparece el boton si eres usuario)
+Guardar los id de los usuarios en un arreglo en la misma publicación
+interesados: [id1, id2, id3, ...]
+
+- Renderizar el boton
+- Si le damos click se guarda con useState (interesado) en la publicación
+- Se agrega a la base de datos el id del usuario
+- Si le volvemos a dar, agarra la publicación y actualiza el arreglo
+- Cambiamos el estado "interesado"
+- Al cargar la publicación desde 0, obtener la información de la publicacion (hacer una funcion que regrese una publicación en especifico dependiendo del tipo de la publicación) -> Si el id está en la lista de interesados, actualizamos el estado
+- Dependiendo del estado, cambia el boton de interes
+
+
+
 Listar los interesados en la publicacion
 
 Subir foto con firebase storage
+
+
+Poner el rol admin directo desde firebase
+Hacer que pueda hacer de todo
+
+
 
 
 Agregar validación de correo

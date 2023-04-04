@@ -4,7 +4,7 @@ import { cambiarEstadoPublicacion, obtenerUsuario } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-hot-toast";
 
-function Publicacion({ documento: doc, tipo }){
+function Publicacion({ documento: doc, tipo, pagina = undefined }){
     /* 
         titulo          Titulo
         estado          Estado verde o rojo
@@ -16,7 +16,6 @@ function Publicacion({ documento: doc, tipo }){
         modalidad       Modalidad
         etiquetas       Etiquetas personalizables
     */
-    //! PONER BOTON "ME INTERESA"
     // Se guarda el estado para poder actualizar la interfaz y para utilizarlo al cambiarlo en la base de datos
     const [estado, setEstado] = useState(doc.data.estado);
     // El nombre de la empresa se obtiene al cargar para mostrar en las publicaciones
@@ -68,7 +67,8 @@ function Publicacion({ documento: doc, tipo }){
                 <div className={`publicacion__estado-indicador ${estado == 0 && "inactiva"}`}></div>
                 <p className="publicacion__estado-texto">{estado == 1 ? "Activa" : "Inactiva"}</p>
                 {
-                    creador && (
+                    // Solo se muestra si es creador de la publicación y si está en su perfil
+                    pagina == "perfil" && creador && (
                         <button onClick={() => toggleEstado(doc.id)} className="boton publicacion__estado-boton">
                             {estado == 1 ? "Desactivar" : "Activar"}
                         </button>

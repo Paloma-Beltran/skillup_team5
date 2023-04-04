@@ -22,6 +22,7 @@ function FormPublicacion(){
 
         let nuevaPublicacion = {
             ...publicacion,
+            dinero: publicacion.dinero.replace(/[^\d.,]/g, ""), // Al dinero le quitamos los caracteres no permitidos
             idEmpresa: usuario.id
         }
 
