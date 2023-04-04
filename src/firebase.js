@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, doc, setDoc, getDocs, orderBy, query, getDoc } from "firebase/firestore";
+import { getFirestore, collection, doc, setDoc, getDocs, orderBy, query, getDoc, where, updateDoc } from "firebase/firestore";
 import { getAuth } from 'firebase/auth';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -43,34 +43,68 @@ async function obtenerDocumentos(coleccion){
 }
 
 export function crearOferta(data){
-    console.log("Oferta creada");
+    // console.log("Oferta creada");
 
     return crearDocumento("ofertas", data);
 }
 
 export function crearCurso(data){
-    console.log("Curso creado");
+    // console.log("Curso creado");
 
     return crearDocumento("cursos", data);
 }
 
 export async function obtenerOfertas(){
-    console.log("Obteniendo ofertas");
+    // console.log("Obteniendo ofertas");
 
     return obtenerDocumentos("ofertas");
 }
 
 export async function obtenerCursos(){
-    console.log("Obteniendo cursos");
+    // console.log("Obteniendo cursos");
 
     return obtenerDocumentos("cursos");
 }
 
+export async function obtenerOfertasEmpresa(id){
+    let q = query(collection(db, "ofertas"), where("idEmpresa", "==", id));
+    let res = await getDocs(q);
+
+    return res.docs;
+}
+
+export async function obtenerCursosEmpresa(id){
+    let q = query(collection(db, "cursos"), where("idEmpresa", "==", id));
+    let res = await getDocs(q);
+
+    return res.docs;
+}
+
+// Activa o desactiva publicaciones
+export function cambiarEstadoPublicacion(id, nuevoEstado, tipo){
+    let docRef;
+    if(tipo == "oferta"){
+        docRef = doc(db, "ofertas", id);
+    } else if(tipo == "curso") {
+        docRef = doc(db, "cursos", id);
+    }
+
+    return updateDoc(docRef, { estado: nuevoEstado });
+}
+
+// Obtiene un usuario en específico (con cualquier rol)
 export async function obtenerUsuario(uid){
-    // Obtiene los datos de un usuario para mostrar el perfil
     let docRef = doc(db, "usuarios", uid);
     let documento = await getDoc(docRef);
     let data = documento.data();
 
     return data;
+}
+
+// Obtiene todas las empresas
+export async function obtenerEmpresas(){
+    let q = query(collection(db, "usuarios"), where("rol", "==", "empresa"));
+    let res = await getDocs(q);
+    
+    return res.docs;
 }

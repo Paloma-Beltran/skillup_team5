@@ -1,17 +1,8 @@
 Pedir los demás datos al registrar
 - Telefono
-- Direccion (empresa)
-
-Poner boton "me interesa"
-Registrar con número de telefono
-
-Para editar un curso:
-En el perfil de las empresas, mostrar todas las ofertas o cursos que ofrece
-Solo esa misma empresa puede ver botones para editar cada publicación, el boton debe tener el id del documento
-Crear otro formulario para editar la publicación y al guardar se actualiza en la base de datos
 
 Boton me interesa
-- Listar los interesados en la publicacion
+Listar los interesados en la publicacion
 
 Subir foto con firebase storage
 
@@ -23,3 +14,12 @@ sendEmailVerification(auth.currentUser)
     // Email verification sent!
     // ...
 });
+
+
+NO ESTOY SEGURO
+Por ahora solo se puede editar el estado de la publicación
+
+Para editar un curso:
+En el perfil de las empresas, mostrar todas las ofertas o cursos que ofrece
+Solo esa misma empresa puede ver botones para editar cada publicación, el boton debe tener el id del documento
+Crear otro formulario para editar la publicación y al guardar se actualiza en la base de datos

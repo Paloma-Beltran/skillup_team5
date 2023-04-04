@@ -1,11 +1,36 @@
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useDataUser } from "../hooks/useDataUser";
-import { useAuth } from "../context/AuthContext";
 
-function PaginaUsuario(){
+import { obtenerOfertasEmpresa, obtenerCursosEmpresa } from "../firebase";
+import { useAuth } from "../context/AuthContext";
+import { useDataUser } from "../hooks/useDataUser";
+
+import Publicacion from "../components/Publicacion";
+
+function PaginaEmpresa(){
     let { id: uid } = useParams();
-    const {cargando, datosUsuario} = useDataUser(uid);
+    const { cargando, datosUsuario } = useDataUser(uid);
+    // Para verificar si es el perfil de la propia empresa y poner los botones de editar
     const { usuario } = useAuth();
+
+    const [ofertas, setOfertas] = useState([]);
+    const [cursos, setCursos] = useState([]);
+
+    useEffect(() => {
+        // Obtener las ofertas de esa empresa
+        obtenerOfertasEmpresa(uid)
+        .then(docs => {
+            let docsOfertas = docs.map(doc => ({id: doc.id, data: doc.data()}))
+            setOfertas(docsOfertas);
+        });
+
+        // Obtener los cursos de esa empresa
+        obtenerCursosEmpresa(uid)
+        .then(docs => {
+            let docsCursos = docs.map(doc => ({id: doc.id, data: doc.data()}))
+            setCursos(docsCursos);
+        });
+    }, [])
 
     // Si está cargando se muestra el texto
     if(cargando) return <h2 className="contenedor titulo">Cargando perfil...</h2>
@@ -36,17 +61,41 @@ function PaginaUsuario(){
                 </div>
             </div>
             <div className="usuario__textos">
+
                 <div className="usuario__texto">
                     <h2 className="usuario__titulo">Descripción</h2>
                     <p className="usuario__parrafo">{datosUsuario.descripcion}</p>
                 </div>
+
                 <div className="usuario__texto">
-                    <h2 className="usuario__titulo">Ofertas o cursos</h2>
-                    <p className="usuario__parrafo">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsa vitae illo dicta eum eaque, eligendi molestiae maiores! Maxime, earum esse nulla cum, repellendus magni optio sed suscipit autem sint sapiente?</p>
+                    <h2 className="usuario__titulo">Ofertas</h2>
+                    {
+                        ofertas.length > 0 ? (
+                            ofertas.map(oferta => (
+                                <Publicacion documento={oferta} tipo="oferta" key={oferta.id} />
+                            ))
+                        ) : (
+                            <p>No hay ofertas disponibles</p>
+                        )
+                    }
                 </div>
+
+                <div className="usuario__texto">
+                    <h2 className="usuario__titulo">Cursos</h2>
+                    {
+                        cursos.length > 0 ? (
+                            cursos.map(curso => (
+                                <Publicacion documento={curso} tipo="curso" key={curso.id} />
+                            ))
+                        ) : (
+                            <p>No hay cursos disponibles</p>
+                        )
+                    }
+                </div>
+
             </div>
         </div>
     )
 }
 
-export default PaginaUsuario;
+export default PaginaEmpresa;

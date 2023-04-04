@@ -1,6 +1,20 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+import { obtenerEmpresas } from "../firebase";
+
 function PaginaInicio(){
+    const [empresas, setEmpresas] = useState();
+
+    useEffect(() => {
+        // Obtenemos todas las empresas para mostrarlas en la página de inicio
+        obtenerEmpresas()
+        .then(docs => {
+            let docsEmpresas = docs.map(doc => doc.data())
+            setEmpresas(docsEmpresas);
+        });
+    }, [])
+
     return(
         <>
             <header className="header contenedor">
@@ -20,7 +34,14 @@ function PaginaInicio(){
             <div className="empresas">
                 <div className="contenedor">
                     <h2 className="titulo">Empresas afiliadas (poner logos) - Esto es opcional</h2>
-                    <div className="empresas__galeria">
+                    {
+                        empresas && empresas.map(empresa => (
+                            <div key={empresa.id}>
+                                <Link to={`/empresa/${empresa.id}`}>{empresa.nombre}</Link>
+                            </div>
+                        ))
+                    }
+                    {/* <div className="empresas__galeria">
                         <img src="https://picsum.photos/500" className="empresas__img" alt="Empresa 1" />
                         <img src="https://picsum.photos/501" className="empresas__img" alt="Empresa 2" />
                         <img src="https://picsum.photos/502" className="empresas__img" alt="Empresa 3" />
@@ -31,7 +52,7 @@ function PaginaInicio(){
                         <img src="https://picsum.photos/507" className="empresas__img" alt="Empresa 8" />
                         <img src="https://picsum.photos/508" className="empresas__img" alt="Empresa 9" />
                         <img src="https://picsum.photos/509" className="empresas__img" alt="Empresa 10" />
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div className="contenedor">

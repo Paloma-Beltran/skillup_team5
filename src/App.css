@@ -179,6 +179,9 @@ body{
   text-align: justify;
   border-radius: 3px;
 }
+.publicacion.inactiva .publicacion__etiqueta{
+  filter: grayscale(1);
+}
 .publicacion__estado{
   display: flex;
   align-items: center;
@@ -192,6 +195,11 @@ body{
 }
 .publicacion__estado-indicador.inactiva{
   background: red;
+}
+.publicacion__estado-boton{
+  margin-left: 10px;
+  padding: 5px 10px;
+  font-size: 1em;
 }
 .publicacion__empresa{
   margin-bottom: 15px;
