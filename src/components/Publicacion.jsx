@@ -23,7 +23,7 @@ function Publicacion({ documento: doc, tipo }){
     const [nombreEmpresa, setNombreEmpresa] = useState("");
     // Si el usuario actual es el dueño de la publicación aparecerá un boton para cambiar el estado
     const [creador, setCreador] = useState(false);
-    let { cargando, usuario } = useAuth(); // Para verificar si es la publicación de la empresa actual
+    let { usuario } = useAuth(); // Para verificar si es la publicación de la empresa actual
 
     useEffect(() => {
         // Se obtiene el nombre de la empresa con el id (se debe obtener aquí por si el nombre fue cambiado recientemente)
@@ -37,17 +37,17 @@ function Publicacion({ documento: doc, tipo }){
     useEffect(() => {
         // Verificar si es el dueño de la publicacion
         setCreador(false);
-        if(!cargando && usuario.id == doc.data.idEmpresa){
+        if(usuario && usuario.id == doc.data.idEmpresa){
             setCreador(true);
         }
-    }, [cargando])
+    }, [usuario])
 
     const toggleEstado = async (docId) => {
         try{
             // Cambiar el estado de la publicación en la base de datos
             // El estado nuevo está entre 0 y 1
             await cambiarEstadoPublicacion(docId, (estado + 1) % 2, tipo); 
-            
+
             // Cambiar el estado de la publicación en el frontend
             if((estado + 1) % 2 == 1){
                 toast.success("Publicación activada");
