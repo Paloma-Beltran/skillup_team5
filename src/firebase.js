@@ -80,16 +80,15 @@ export async function obtenerCursosEmpresa(id){
     return res.docs;
 }
 
-// Activa o desactiva publicaciones
-export function cambiarEstadoPublicacion(id, nuevoEstado, tipo){
+// Obtiene una publicación en específico
+export async function obtenerPublicacion(docId, tipo){
     let docRef;
-    if(tipo == "oferta"){
-        docRef = doc(db, "ofertas", id);
-    } else if(tipo == "curso") {
-        docRef = doc(db, "cursos", id);
-    }
-
-    return updateDoc(docRef, { estado: nuevoEstado });
+    // Se obtiene la publicacion dependiendo del tipo
+    if(tipo == "oferta") docRef = doc(db, "ofertas", docId);
+    else if(tipo == "curso") docRef = doc(db, "cursos", docId);
+    
+    // Obtener el documento
+    return (await getDoc(docRef)).data();
 }
 
 // Obtiene un usuario en específico (con cualquier rol)
@@ -107,4 +106,36 @@ export async function obtenerEmpresas(){
     let res = await getDocs(q);
     
     return res.docs;
+}
+
+// Activa o desactiva publicaciones
+export function cambiarEstadoPublicacion(id, nuevoEstado, tipo){
+    let docRef;
+    if(tipo == "oferta") docRef = doc(db, "ofertas", id);
+    else if(tipo == "curso") docRef = doc(db, "cursos", id);
+
+    return updateDoc(docRef, { estado: nuevoEstado });
+}
+
+export async function cambiarInteresUsuario(docId, uid, interesado, tipo){
+    let docRef;
+    // Se obtiene la publicacion dependiendo del tipo
+    if(tipo == "oferta") docRef = doc(db, "ofertas", docId);
+    else if(tipo == "curso") docRef = doc(db, "cursos", docId);
+    
+    // Obtener el documento de la publicación
+    let documento = (await getDoc(docRef)).data();
+
+    if(interesado){
+        // Si ya existe en el arreglo, no se agrega
+        if(!documento.interesados.includes(uid)){
+            await updateDoc(docRef, { interesados: [...documento.interesados, uid] });
+        }
+        // Si no hay interesados, solo se agrega el actual
+        else await updateDoc(docRef, { interesados: [uid] });
+    } else {
+        // Si ya no está interesado y existe en el arreglo, se quita
+        let interesadosFiltrados = documento.interesados.filter(id => id != uid);
+        await updateDoc(docRef, { interesados: interesadosFiltrados });
+    }
 }

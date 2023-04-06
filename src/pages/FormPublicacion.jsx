@@ -14,7 +14,8 @@ function FormPublicacion(){
         duracion: "",
         dirigido: "",
         modalidad: "",
-        etiquetas: []
+        etiquetas: [],
+        interesados: []
     });
 
     const handleSubmit = e => {
@@ -22,8 +23,9 @@ function FormPublicacion(){
 
         let nuevaPublicacion = {
             ...publicacion,
-            dinero: publicacion.dinero.replace(/[^\d.,]/g, ""), // Al dinero le quitamos los caracteres no permitidos
-            idEmpresa: usuario.id
+            dinero: publicacion.dinero.replace(/[^\d.,]/g, "") || "0", // Al dinero le quitamos los caracteres no permitidos
+            idEmpresa: usuario.id,
+            etiquetas: publicacion.etiquetas.map(etiqueta => etiqueta.trim()) // A cada etiqueta se le quitan los espacios
         }
 
         // Ahora se manda a la base de datos
@@ -58,8 +60,7 @@ function FormPublicacion(){
         }
 
         if(e.target.name == "etiquetas"){
-            let etiquetas = e.target.value.split(",").map(etiqueta => etiqueta.trim());
-            setPublicacion({...publicacion, etiquetas})
+            setPublicacion({...publicacion, etiquetas: e.target.value.split(",")});
             return;
         }
 

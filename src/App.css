@@ -224,10 +224,36 @@ body{
   gap: 10px;
 }
 .publicacion__etiqueta{
-  background: var(--color-primario);
-  color: #fff;
-  padding: 3px 10px;
-  border-radius: 3px;
+  padding: 3px 5px;
+  border-bottom: 3px solid var(--color-primario);
+  border-radius: 5px;
+}
+.publicacion__interes{
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.publicacion__interes-boton,
+.publicacion__ver-interesados{
+  width: max-content;
+  padding: 5px 10px;
+}
+.publicacion__interes-boton{
+  background: green;
+  border: 3px solid green;
+}
+.publicacion__interes-boton.interesado{
+  background: red;
+  border: 3px solid red;
+}
+.publicacion__interes-boton.interesado:hover{
+  background: transparent;
+}
+.publicacion__interesados{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 /* PERFIL USUARIO */
@@ -250,6 +276,7 @@ body{
   display: flex;
   flex-direction: column;
   gap: 10px;
+  /* text-align: center; */
 }
 .usuario__editar{
   --colorIcono: #fff;
@@ -404,7 +431,11 @@ body{
 }
 
 @media screen and (max-width: 425px){
+  .usuario__informacion{
+    align-items: center;
+  }
   .usuario__datos{
     flex-direction: column;
+    text-align: center;
   }
 }
