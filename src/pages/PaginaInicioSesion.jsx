@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
 
 import { useAuth } from "../context/AuthContext";
+import { useTitle } from "../hooks/useTitle";
+
+import toast from 'react-hot-toast';
 
 function PaginaInicioSesion(){
+    useTitle("Inicio de sesión | SkillUp");
+
     const { iniciarSesion, restablecerContrasena } = useAuth();
     const navigate = useNavigate();
 
@@ -67,7 +71,7 @@ function PaginaInicioSesion(){
 
     return(
         <div className="contenedor">
-            <h1 className="titulo">Inicio Sesión</h1>
+            <h1 className="titulo">Inicio de Sesión</h1>
 
             <form className="form" onSubmit={handleSubmit}>
 

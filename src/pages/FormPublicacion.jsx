@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { useTitle } from "../hooks/useTitle";
 import toast from 'react-hot-toast';
 import { crearCurso, crearOferta } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 
 function FormPublicacion(){
+    useTitle("Publicar | SkillUp");
+
     const { usuario } = useAuth(); // Para guardar el uid de la empresa en la publicación
     let [tipo, setTipo] = useState("");
     let [publicacion, setPublicacion] = useState({

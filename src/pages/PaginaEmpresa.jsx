@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { obtenerOfertasEmpresa, obtenerCursosEmpresa } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 import { useDataUser } from "../hooks/useDataUser";
+import { useTitle } from "../hooks/useTitle";
 
 import Publicacion from "../components/Publicacion";
 
@@ -12,6 +13,9 @@ function PaginaEmpresa(){
     const { cargando, datosUsuario } = useDataUser(uid);
     // Para verificar si es el perfil de la propia empresa y poner los botones de editar
     const { usuario } = useAuth();
+
+    const titulo = datosUsuario?.nombre && datosUsuario.nombre + " | SkillUp";
+    useTitle(`${titulo || "SkillUp"}`);
 
     const [ofertas, setOfertas] = useState([]);
     const [cursos, setCursos] = useState([]);

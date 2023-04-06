@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useTitle } from "../hooks/useTitle";
 
 import { obtenerEmpresas } from "../firebase";
 
 function PaginaInicio(){
+    useTitle("Inicio | SkillUp");
+
     const [empresas, setEmpresas] = useState();
 
     useEffect(() => {

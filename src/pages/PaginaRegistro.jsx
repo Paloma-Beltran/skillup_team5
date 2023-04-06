@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
 
 import { useAuth } from "../context/AuthContext";
+import { useTitle } from "../hooks/useTitle";
+
+import toast from 'react-hot-toast';
 
 // Ver si se necesita hacer un registro para cada rol o si simplemente se selecciona con un boton el rol
 function PaginaRegistro(){
+    useTitle("Registro | SkillUp");
+
     const { registrarUsuario, registrarUsuarioFirestore } = useAuth();
     const navigate = useNavigate();
 

@@ -1,11 +1,15 @@
 import { Link, useParams } from "react-router-dom";
 import { useDataUser } from "../hooks/useDataUser";
+import { useTitle } from "../hooks/useTitle";
 import { useAuth } from "../context/AuthContext";
 
-function PaginaUsuario(){
+function PaginaUsuario(){    
     let { id: uid } = useParams();
     const {cargando, datosUsuario} = useDataUser(uid);
     const { usuario } = useAuth();
+
+    const titulo = datosUsuario?.nombre && datosUsuario.nombre + " | SkillUp";
+    useTitle(`${titulo || "SkillUp"}`);
 
     // Si está cargando se muestra el texto
     if(cargando) return <h2 className="contenedor titulo">Cargando perfil...</h2>

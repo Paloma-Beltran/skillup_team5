@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useTitle } from "../hooks/useTitle";
+import { toast } from "react-hot-toast";
 
 function FormEditarPerfil(){
+    useTitle("Editar perfil | SkillUp");
+
     const navigate = useNavigate();
     const { usuario, editarPerfil, actualizarUsuario } = useAuth();
     const [datos, setDatos] = useState(null);

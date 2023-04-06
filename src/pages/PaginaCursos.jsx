@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { obtenerCursos } from "../firebase";
 import { useDocs } from "../hooks/useDocs";
+import { useTitle } from "../hooks/useTitle";
 
 import FiltroPublicaciones from "../components/FiltroPublicaciones";
 import Publicacion from '../components/Publicacion';
 
 function PaginaCursos(){
+    useTitle("Cursos | SkillUp");
+    
     // Custom hook que obtiene los documentos de la función de firebase
     let { cargando, documentos, setDocumentos } = useDocs(obtenerCursos);
     let [filtradas, setFiltradas] = useState([]);
