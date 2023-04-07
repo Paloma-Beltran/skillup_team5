@@ -1,4 +1,15 @@
 Subir foto con firebase storage
+Al registrar el usuario, poner foto: "https://ui-avatars.com/api/?name=${usuario.nombre}&background=555&color=fff&uppercase=true"
+Al modificar el perfil:
+    - Si existe una foto en storage, no se actualiza ese link con el avatar por defecto
+    - Si no, cambiar el link con su nuevo nombre
+
+Poner input file para las fotos del storage
+Al guardar perfil, si no se puso ninguna foto nueva, se ignora y no hace nada
+Si subió foto, hasta que se le de a guardar la sube a storage
+Poner boton para quitar la foto (vuelve a poner el link con su nombre)
+
+
 
 
 Poner el rol admin directo desde firebase

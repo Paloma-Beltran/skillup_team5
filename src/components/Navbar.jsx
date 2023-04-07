@@ -28,6 +28,14 @@ function Navbar(){
 
     return(
         <div className="navbar">
+            {
+                // Nombre de usuario
+                usuario != null &&
+                <div className="navbar__usuario" key={usuario.id}>
+                    <img src={`https://ui-avatars.com/api/?name=${usuario.nombre}&background=555&color=fff&uppercase=true`} className="navbar__img" alt={`Empresa ${usuario.nombre}`} />
+                    <h3 className="navbar__nombre">{usuario.nombre}</h3>
+                </div>
+            }
             <div className="navbar__contenedor" ref={menu}>
                 <div className="navbar__paginas">
                     {/* Hacer un componente especial al que le pasemos la ruta y el texto como children 
@@ -41,6 +49,7 @@ function Navbar(){
                         )
                     }
                 </div>
+
                 {
                     usuario == null ? (
                         <div className="navbar__sesion">

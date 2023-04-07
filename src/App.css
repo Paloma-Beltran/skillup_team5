@@ -70,18 +70,38 @@ body{
   left: 0;
   display: flex;
   align-items: center;
-  padding: 20px 30px;
+  gap: 30px;
+  padding: 0 30px;
   background: var(--color-primario);
   z-index: 100;
+}
+.navbar__usuario{
+  width: 40%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.navbar__img{
+  height: 70%;
+  border-radius: 50%;
+}
+.navbar__nombre{
+  color: #fff;
+  font-size: 1em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .navbar__hamburguesa{
   display: none;
 }
 .navbar__contenedor{
+  width: 60%;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  width: 100%;
   gap: 20px;
 }
 :is(.navbar__paginas, .navbar__sesion){
@@ -129,15 +149,27 @@ body{
   background: #ccc;
   padding: 0.1px; /* evitar margin collapse */
 }
-.empresas__galeria{
+.empresas__lista{
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 200px));
+  justify-content: center;
+  align-items: center;
+  column-gap: 50px;
+  row-gap: 30px;
+}
+.empresas__empresa{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  align-items: center;
 }
 .empresas__img{
   width: 100%;
-  border-radius: 3px;
+  border-radius: 50%;
   box-shadow: 0 0 5px #aaa;
+}
+.empresas__link{
+  text-align: center;
 }
 
 /* FILTROS DE PUBLICACIONES */

@@ -36,32 +36,18 @@ function PaginaInicio(){
             </header>
             <div className="empresas">
                 <div className="contenedor">
-                    <h2 className="titulo">Empresas afiliadas (poner logos) - Esto es opcional</h2>
-                    {
-                        empresas && empresas.map(empresa => (
-                            <div key={empresa.id}>
-                                <Link to={`/empresa/${empresa.id}`}>{empresa.nombre}</Link>
-                            </div>
-                        ))
-                    }
-                    {/* <div className="empresas__galeria">
-                        <img src="https://picsum.photos/500" className="empresas__img" alt="Empresa 1" />
-                        <img src="https://picsum.photos/501" className="empresas__img" alt="Empresa 2" />
-                        <img src="https://picsum.photos/502" className="empresas__img" alt="Empresa 3" />
-                        <img src="https://picsum.photos/503" className="empresas__img" alt="Empresa 4" />
-                        <img src="https://picsum.photos/504" className="empresas__img" alt="Empresa 5" />
-                        <img src="https://picsum.photos/505" className="empresas__img" alt="Empresa 6" />
-                        <img src="https://picsum.photos/506" className="empresas__img" alt="Empresa 7" />
-                        <img src="https://picsum.photos/507" className="empresas__img" alt="Empresa 8" />
-                        <img src="https://picsum.photos/508" className="empresas__img" alt="Empresa 9" />
-                        <img src="https://picsum.photos/509" className="empresas__img" alt="Empresa 10" />
-                    </div> */}
+                    <h2 className="titulo">Empresas afiliadas</h2>
+                    <div className="empresas__lista">
+                        {
+                            empresas && empresas.map(empresa => (
+                                <div className="empresas__empresa" key={empresa.id}>
+                                    <img src={`https://ui-avatars.com/api/?name=${empresa.nombre}&background=555&color=fff&uppercase=true`} className="empresas__img" alt={`Empresa ${empresa.nombre}`} />
+                                    <Link to={`/empresa/${empresa.id}`} className="empresas__link">{empresa.nombre}</Link>
+                                </div>
+                            ))
+                        }
+                    </div>
                 </div>
-            </div>
-            <div className="contenedor">
-                <h2>Enlaces de ejemplo para ver el diseño de los perfiles</h2>
-                <Link to="/usuario/LiUfH3T5mebZ5kVWHn36wlmJkq53">Usuario ejemplo</Link><br />
-                <Link to="/empresa/tAWgMnurKKZTm4HZkhwpadkuEIJ2">Empresa ejemplo</Link>
             </div>
         </>
     )
