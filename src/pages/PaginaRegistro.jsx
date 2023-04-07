@@ -20,6 +20,7 @@ function PaginaRegistro(){
         nombre: "",
         carrera: "",
         institucion: "",
+        telefono: "",
         descripcion: "",
         habilidades: "",
         direccion: ""
@@ -47,6 +48,7 @@ function PaginaRegistro(){
                     ...data,
                     carrera: datos.carrera,
                     institucion: datos.institucion,
+                    telefono: datos.telefono,
                     habilidades: datos.habilidades
                 }
             } else if(rol == "empresa"){
@@ -64,7 +66,6 @@ function PaginaRegistro(){
             toast.success("Registro exitoso");
 
             navigate("/");
-            // navigate(`/usuario/${idUsuario}`);
         } catch(err){
             console.log({err});
             if(err.code == "auth/email-already-in-use"){
@@ -176,18 +177,22 @@ function PaginaRegistro(){
                                 />
                             </div>
 
-                            {/* <div className="form__apartado">
+                            <div className="form__apartado">
                                 <label htmlFor="telefono">Número de teléfono</label>
                                 <input
                                     name="telefono"
                                     id="telefono"
                                     className="form__input"
-                                    type="number"
+                                    type="tel"
                                     onInput={handleInput}
                                     value={datos.telefono}
+                                    minLength={10}
+                                    maxLength={10}
+                                    pattern="\d{10}" // Solo acepta dígitos
+                                    title="Introduce 10 dígitos"
                                     required
                                 />
-                            </div> */}
+                            </div>
 
                             <div className="form__apartado">
                                 <label htmlFor="descripcion">Descripción</label>

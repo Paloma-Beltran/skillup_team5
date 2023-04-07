@@ -94,6 +94,23 @@ function FormEditarPerfil(){
                             </div>
 
                             <div className="form__apartado">
+                                <label htmlFor="telefono">Número de teléfono</label>
+                                <input
+                                    name="telefono"
+                                    id="telefono"
+                                    className="form__input"
+                                    type="tel"
+                                    onInput={handleInput}
+                                    value={datos.telefono}
+                                    minLength={10}
+                                    maxLength={10}
+                                    pattern="\d{10}" // Solo acepta dígitos
+                                    title="Introduce 10 dígitos"
+                                    required
+                                />
+                            </div>
+
+                            <div className="form__apartado">
                                 <label htmlFor="descripcion">Descripción</label>
                                 <textarea
                                     name="descripcion"

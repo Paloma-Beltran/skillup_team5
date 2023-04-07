@@ -1,14 +1,8 @@
-Pedir los demás datos al registrar
-- Telefono
-
 Subir foto con firebase storage
 
 
 Poner el rol admin directo desde firebase
 Hacer que pueda hacer de todo
-
-
-Cambiar titulos de las páginas (useTitle o una dependencia)
 
 
 
