@@ -404,6 +404,9 @@ body{
 /*! MEDIA QUERIES */
 @media screen and (max-width: 768px){
   /* NAVBAR */
+  .navbar{
+    justify-content: flex-end;
+  }
   .navbar__hamburguesa{
     width: 30px;
     height: 30px;
