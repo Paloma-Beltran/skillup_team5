@@ -79,8 +79,9 @@ body{
   width: 40%;
   height: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  flex-grow: 1;
   gap: 20px;
 }
 .navbar__img{
@@ -403,9 +404,6 @@ body{
 /*! MEDIA QUERIES */
 @media screen and (max-width: 768px){
   /* NAVBAR */
-  .navbar{
-    justify-content: end;
-  }
   .navbar__hamburguesa{
     width: 30px;
     height: 30px;
