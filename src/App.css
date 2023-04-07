@@ -102,6 +102,7 @@ body{
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  flex-grow: 1;
   gap: 20px;
 }
 :is(.navbar__paginas, .navbar__sesion){
