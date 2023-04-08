@@ -25,35 +25,38 @@ function FormEditarPerfil(){
     const handleSubmit = async e => {
         e.preventDefault();
         
-        // Si se quiso borrar la foto, se borra del storage
-        if(borrarFoto){
-            try{
-                await borrarFotoPerfil(datos.id);
-            } catch(err){
-                // console.log({err});
-            }
-        }
-
         try{
+            // Si se quiso borrar la foto, se borra del storage
+            if(borrarFoto) await borrarFotoPerfil(datos.id);
+
             // Subir imagen si se cambió el input file
-            // En este caso se actualiza o se sube desde 0 la foto nueva
+            let url = datos.url; // por defecto es la imagen que ya tenía antes
             if(file){
-                await subirFotoPerfil(file, usuario.id);
-                // let { imgData, url } = await subirFotoPerfil(file, usuario.id);
+                //? Se utilizan los parentesis para que no se interprete como un bloque de código
+                //? sino como una expresión a evaluar
+                ({ url } = await subirFotoPerfil(file, datos.id));
                 // console.log({imgData, url});
             }
 
             // Editar datos de perfil
-            //? Filtramos la url para que no se guarde en la base de datos ya que se obtiene desde las otras funciones
-            await editarPerfil(usuario.id, { ...datos, url: deleteField() });
+            if(!borrarFoto){
+                // Si no se borró la foto, se actualiza con la nueva url
+                // o con la misma si no se subió ningún archivo
+                await editarPerfil(datos.id, { ...datos, url });
+            } else {
+                //? Filtramos la url para que no se guarde en la base de datos ya que se obtiene desde las otras funciones
+                // Si se borró, se actualiza el documento y se quita la url
+                // para usar la que va por defecto
+                await editarPerfil(datos.id, { ...datos, url: deleteField() });
+            }
 
             // Se actualizan los datos del usuario con la sesión activa (info e imagen)
-            actualizarUsuario(usuario.id);
+            actualizarUsuario(datos.id);
             
             // console.log("Perfil editado", datos);
             toast.success("Perfil editado correctamente");
             
-            navigate(`/${usuario.rol}/${usuario.id}`);
+            navigate(`/${datos.rol}/${datos.id}`);
         } catch(err){
             // console.log({err});
             toast.error("Hubo un error");

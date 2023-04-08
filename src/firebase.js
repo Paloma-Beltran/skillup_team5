@@ -100,8 +100,8 @@ export async function obtenerUsuario(uid){
     let documento = await getDoc(docRef);
     let data = documento.data();
 
-    // Se pone la imagen que ya existe en storage o se pone una la imagen por defecto
-    let url = await obtenerFotoPerfil(data.id) || `https://ui-avatars.com/api/?name=${encodeURI(data.nombre)}&background=555&color=fff&uppercase=true`;
+    // Se pone la imagen que ya existe en storage guardada en la db o se pone una la imagen por defecto
+    let url = data.url || `https://ui-avatars.com/api/?name=${encodeURI(data.nombre)}&background=555&color=fff&uppercase=true`;
 
     return { ...data, url };
 }
@@ -112,9 +112,9 @@ export async function obtenerEmpresas(){
     // Por cada documento se obtienen los datos
     let res = (await getDocs(q)).docs.map(doc => doc.data());
 
-    // Por cada documento, se obtiene la imagen de storage o la imagen por defecto
+    // Por cada documento, se obtiene la imagen de storage guardada en la db o la imagen por defecto
     let docs = res.map(async doc => {
-        let url = await obtenerFotoPerfil(doc.id) || `https://ui-avatars.com/api/?name=${encodeURI(doc.nombre)}&background=555&color=fff&uppercase=true`;
+        let url = doc.url || `https://ui-avatars.com/api/?name=${encodeURI(doc.nombre)}&background=555&color=fff&uppercase=true`;
         
         return { ...doc, url };
     });
