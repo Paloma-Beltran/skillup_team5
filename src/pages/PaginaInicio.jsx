@@ -13,8 +13,7 @@ function PaginaInicio(){
         // Obtenemos todas las empresas para mostrarlas en la página de inicio
         obtenerEmpresas()
         .then(docs => {
-            let docsEmpresas = docs.map(doc => doc.data())
-            setEmpresas(docsEmpresas);
+            setEmpresas(docs);
         });
     }, [])
 
@@ -41,7 +40,7 @@ function PaginaInicio(){
                         {
                             empresas && empresas.map(empresa => (
                                 <div className="empresas__empresa" key={empresa.id}>
-                                    <img src={`https://ui-avatars.com/api/?name=${empresa.nombre}&background=555&color=fff&uppercase=true`} className="empresas__img" alt={`Empresa ${empresa.nombre}`} />
+                                    <img src={empresa.url} className="empresas__img" alt={`Foto de perfil de la empresa ${empresa.nombre}`} />
                                     <Link to={`/empresa/${empresa.id}`} className="empresas__link">{empresa.nombre}</Link>
                                 </div>
                             ))

@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 
-import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
-import { db } from '../firebase';
+import { doc, setDoc, updateDoc } from 'firebase/firestore';
+import { db, obtenerUsuario } from '../firebase';
 
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../firebase';
@@ -57,12 +57,11 @@ function AuthProvider({ children }){
     }
 
     const actualizarUsuario = async (uid) => {
+        // Cuando se edita el perfil se actualiza el estado del usuario actual
         setCargando(true);
-        let docRef = doc(db, "usuarios", uid);
-        let res = await getDoc(docRef);
-        let datosFS = res.data();
-        
-        setUser(datosFS);
+        let datos = await obtenerUsuario(uid);
+                
+        setUser(datos);
         setCargando(false);
     }
 

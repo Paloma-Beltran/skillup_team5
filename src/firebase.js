@@ -2,6 +2,8 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, doc, setDoc, getDocs, orderBy, query, getDoc, where, updateDoc } from "firebase/firestore";
 import { getAuth } from 'firebase/auth';
+import { getStorage, uploadBytes, getDownloadURL, ref, deleteObject } from "firebase/storage";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -19,8 +21,9 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
+export const storage = getStorage(app);
 
-//! Funciones firebase
+//! FUNCIONES FIRESTORE
 async function crearDocumento(coleccion, data){
     let fecha = Date.now().toString();
     // Se crea un documento y se le agrega como id la fecha
@@ -97,15 +100,29 @@ export async function obtenerUsuario(uid){
     let documento = await getDoc(docRef);
     let data = documento.data();
 
-    return data;
+    // Se pone la imagen que ya existe en storage o se pone una la imagen por defecto
+    let url = await obtenerFotoPerfil(data.id) || `https://ui-avatars.com/api/?name=${encodeURI(data.nombre)}&background=555&color=fff&uppercase=true`;
+
+    return { ...data, url };
 }
 
 // Obtiene todas las empresas
 export async function obtenerEmpresas(){
     let q = query(collection(db, "usuarios"), where("rol", "==", "empresa"));
-    let res = await getDocs(q);
+    // Por cada documento se obtienen los datos
+    let res = (await getDocs(q)).docs.map(doc => doc.data());
+
+    // Por cada documento, se obtiene la imagen de storage o la imagen por defecto
+    let docs = res.map(async doc => {
+        let url = await obtenerFotoPerfil(doc.id) || `https://ui-avatars.com/api/?name=${encodeURI(doc.nombre)}&background=555&color=fff&uppercase=true`;
+        
+        return { ...doc, url };
+    });
+
+    // Se espera a que terminen las promesas
+    docs = await Promise.all(docs);
     
-    return res.docs;
+    return docs;
 }
 
 // Activa o desactiva publicaciones
@@ -138,4 +155,31 @@ export async function cambiarInteresUsuario(docId, uid, interesado, tipo){
         let interesadosFiltrados = documento.interesados.filter(id => id != uid);
         await updateDoc(docRef, { interesados: interesadosFiltrados });
     }
+}
+
+//! FUNCIONES STORAGE
+export async function subirFotoPerfil(file, idUsuario){
+    const storageRef = ref(storage, `fotos-perfil/perfil-${idUsuario}`);
+
+    let imgData = await uploadBytes(storageRef, file);    
+    let url = await obtenerFotoPerfil(idUsuario);
+
+    return { imgData, url };
+}
+
+export async function obtenerFotoPerfil(idUsuario){
+    const storageRef = ref(storage, `fotos-perfil/perfil-${idUsuario}`);
+
+    try{
+        return await getDownloadURL(storageRef);
+    } catch(err){
+        // console.log({err});
+        return "";
+    }
+}
+
+export async function borrarFotoPerfil(idUsuario){
+    const storageRef = ref(storage, `fotos-perfil/perfil-${idUsuario}`);
+
+    await deleteObject(storageRef);
 }

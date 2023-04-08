@@ -10,6 +10,7 @@ function useDataUser(uid){
 
         const obtenerPerfilUsuario = async () => {
             let datos = await obtenerUsuario(uid);
+
             setDatosUsuario(datos);
             setCargando(false);
         }

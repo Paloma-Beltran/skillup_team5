@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { borrarFotoPerfil, subirFotoPerfil } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 import { useTitle } from "../hooks/useTitle";
 import { toast } from "react-hot-toast";
+import { deleteField } from "firebase/firestore";
 
 function FormEditarPerfil(){
     useTitle("Editar perfil | SkillUp");
@@ -10,19 +12,42 @@ function FormEditarPerfil(){
     const navigate = useNavigate();
     const { usuario, editarPerfil, actualizarUsuario } = useAuth();
     const [datos, setDatos] = useState(null);
+    const [file, setFile] = useState(null);
+    const [foto, setFoto] = useState(null);
+    const [borrarFoto, setBorrarFoto] = useState(false);
 
     // Para cuando se obtenga el usuario al renderizar el componente
     useEffect(() => {
         setDatos(usuario);
+        if(usuario) setFoto(usuario.url);
     }, [usuario])
 
     const handleSubmit = async e => {
         e.preventDefault();
+        
+        // Si se quiso borrar la foto, se borra del storage
+        if(borrarFoto){
+            try{
+                await borrarFotoPerfil(datos.id);
+            } catch(err){
+                // console.log({err});
+            }
+        }
 
         try{
-            await editarPerfil(usuario.id, datos);
+            // Subir imagen si se cambió el input file
+            // En este caso se actualiza o se sube desde 0 la foto nueva
+            if(file){
+                await subirFotoPerfil(file, usuario.id);
+                // let { imgData, url } = await subirFotoPerfil(file, usuario.id);
+                // console.log({imgData, url});
+            }
 
-            // Se actualizan los datos del usuario con la sesión activa
+            // Editar datos de perfil
+            //? Filtramos la url para que no se guarde en la base de datos ya que se obtiene desde las otras funciones
+            await editarPerfil(usuario.id, { ...datos, url: deleteField() });
+
+            // Se actualizan los datos del usuario con la sesión activa (info e imagen)
             actualizarUsuario(usuario.id);
             
             // console.log("Perfil editado", datos);
@@ -42,6 +67,40 @@ function FormEditarPerfil(){
         })
     }
 
+    const handleInputFile = async e => {
+        // Ya no se borra la foto de storage, solo se va a actualizar
+        setBorrarFoto(false);
+
+        const file = e.target.files[0];
+
+        // Se va a cambiar la imagen pero solo va a ser visual, aquí no se actualiza en storage
+        let reader = new FileReader();
+
+        reader.onload = res => {
+            let result = res.target.result;
+
+            setFoto(result);
+        }
+
+        reader.readAsDataURL(file);
+
+        setFile(file);
+
+        // Se limpia el input para poder subir varias veces la misma imagen después de darle al boton de borrar foto
+        e.target.value = "";
+    }
+
+    const handleBorrarFoto = async () => {
+        // El file se limpia
+        setFile(null);
+        
+        // Se marca para borrar la foto de storage
+        setBorrarFoto(true);
+
+        // Se renderiza la imagen por defecto
+        setFoto(`https://ui-avatars.com/api/?name=${encodeURI(datos.nombre)}&background=555&color=fff&uppercase=true`);
+    }
+
     // Si todavía no se cargan los datos
     if(!datos) return <h2 className="contenedor titulo">Cargando...</h2>
 
@@ -49,8 +108,15 @@ function FormEditarPerfil(){
         <div className="contenedor">
             <h1 className="titulo">Editar perfil</h1>
 
-            <form className="form" onSubmit={handleSubmit}>
-
+            <form className="form formEditar" onSubmit={handleSubmit}>
+                <div className="formEditar__cambiar-foto">
+                    <img src={foto} className="formEditar__foto" alt={`Imagen de perfil de ${datos.nombre}`} />
+                    <div className="formEditar__botones">
+                        <label htmlFor="inpFoto" className="boton formEditar__boton">Cambiar foto de perfil</label>
+                        <input type="file" name="imagen" id="inpFoto" onInput={handleInputFile} style={{display: "none"}} />
+                        <button type="button" className="boton boton--rojo formEditar__boton" onClick={handleBorrarFoto}>Borrar foto</button>
+                    </div>
+                </div>
                 {
                     datos.rol == "usuario" ? (
                         <>
