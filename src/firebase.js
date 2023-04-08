@@ -101,9 +101,9 @@ export async function obtenerUsuario(uid){
     let data = documento.data();
 
     // Se pone la imagen que ya existe en storage guardada en la db o se pone una la imagen por defecto
-    let url = data.url || `https://ui-avatars.com/api/?name=${encodeURI(data.nombre)}&background=555&color=fff&uppercase=true`;
+    let imgUrl = data.imgUrl || `https://ui-avatars.com/api/?name=${encodeURI(data.nombre)}&background=555&color=fff&uppercase=true`;
 
-    return { ...data, url };
+    return { ...data, imgUrl };
 }
 
 // Obtiene todas las empresas
@@ -114,9 +114,9 @@ export async function obtenerEmpresas(){
 
     // Por cada documento, se obtiene la imagen de storage guardada en la db o la imagen por defecto
     let docs = res.map(async doc => {
-        let url = doc.url || `https://ui-avatars.com/api/?name=${encodeURI(doc.nombre)}&background=555&color=fff&uppercase=true`;
+        let imgUrl = doc.imgUrl || `https://ui-avatars.com/api/?name=${encodeURI(doc.nombre)}&background=555&color=fff&uppercase=true`;
         
-        return { ...doc, url };
+        return { ...doc, imgUrl };
     });
 
     // Se espera a que terminen las promesas
@@ -162,9 +162,9 @@ export async function subirFotoPerfil(file, idUsuario){
     const storageRef = ref(storage, `fotos-perfil/perfil-${idUsuario}`);
 
     let imgData = await uploadBytes(storageRef, file);    
-    let url = await obtenerFotoPerfil(idUsuario);
+    let imgUrl = await obtenerFotoPerfil(idUsuario);
 
-    return { imgData, url };
+    return { imgData, imgUrl };
 }
 
 export async function obtenerFotoPerfil(idUsuario){

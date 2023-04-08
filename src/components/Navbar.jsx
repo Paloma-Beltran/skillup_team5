@@ -32,7 +32,7 @@ function Navbar(){
                 // Nombre de usuario
                 usuario != null &&
                 <div className="navbar__usuario" key={usuario.id}>
-                    <img src={usuario.url} className="navbar__img" alt={`Foto de perfil de ${usuario.nombre}`} />
+                    <img src={usuario.imgUrl} className="navbar__img" alt={`Foto de perfil de ${usuario.nombre}`} />
                     <h3 className="navbar__nombre">{usuario.nombre}</h3>
                 </div>
             }

@@ -20,7 +20,7 @@ function PaginaUsuario(){
     return(
         <div className="usuario contenedor">
             <div className="usuario__datos">
-                <img src={datosUsuario.url} className="usuario__img" alt="Foto de perfil del usuario" />
+                <img src={datosUsuario.imgUrl} className="usuario__img" alt={`Foto de perfil del usuario ${datosUsuario.nombre}`} />
                 <div className="usuario__informacion">
                     {
                         // Si es dueño del perfil, se muestra el boton para editar

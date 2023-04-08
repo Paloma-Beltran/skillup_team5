@@ -40,7 +40,7 @@ function PaginaInicio(){
                         {
                             empresas && empresas.map(empresa => (
                                 <div className="empresas__empresa" key={empresa.id}>
-                                    <img src={empresa.url} className="empresas__img" alt={`Foto de perfil de la empresa ${empresa.nombre}`} />
+                                    <img src={empresa.imgUrl} className="empresas__img" alt={`Foto de perfil de la empresa ${empresa.nombre}`} />
                                     <Link to={`/empresa/${empresa.id}`} className="empresas__link">{empresa.nombre}</Link>
                                 </div>
                             ))

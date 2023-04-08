@@ -19,7 +19,7 @@ function FormEditarPerfil(){
     // Para cuando se obtenga el usuario al renderizar el componente
     useEffect(() => {
         setDatos(usuario);
-        if(usuario) setFoto(usuario.url);
+        if(usuario) setFoto(usuario.imgUrl);
     }, [usuario])
 
     const handleSubmit = async e => {
@@ -30,24 +30,24 @@ function FormEditarPerfil(){
             if(borrarFoto) await borrarFotoPerfil(datos.id);
 
             // Subir imagen si se cambió el input file
-            let url = datos.url; // por defecto es la imagen que ya tenía antes
+            let imgUrl = datos.imgUrl; // por defecto es la imagen que ya tenía antes
             if(file){
                 //? Se utilizan los parentesis para que no se interprete como un bloque de código
                 //? sino como una expresión a evaluar
-                ({ url } = await subirFotoPerfil(file, datos.id));
-                // console.log({imgData, url});
+                ({ imgUrl } = await subirFotoPerfil(file, datos.id));
+                // console.log({imgData, imgUrl});
             }
 
             // Editar datos de perfil
             if(!borrarFoto){
                 // Si no se borró la foto, se actualiza con la nueva url
                 // o con la misma si no se subió ningún archivo
-                await editarPerfil(datos.id, { ...datos, url });
+                await editarPerfil(datos.id, { ...datos, imgUrl });
             } else {
                 //? Filtramos la url para que no se guarde en la base de datos ya que se obtiene desde las otras funciones
                 // Si se borró, se actualiza el documento y se quita la url
                 // para usar la que va por defecto
-                await editarPerfil(datos.id, { ...datos, url: deleteField() });
+                await editarPerfil(datos.id, { ...datos, imgUrl: deleteField() });
             }
 
             // Se actualizan los datos del usuario con la sesión activa (info e imagen)

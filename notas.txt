@@ -1,6 +1,4 @@
-Revisar los alt de las img
-
-En los metadatos de la imagen guardar el nombre del dueño
+En los metadatos de la imagen guardar el nombre del dueño (para que el administrador pueda ver desde firebase)
 
 Poner el rol admin directo desde firebase
 Hacer que pueda hacer de todo
