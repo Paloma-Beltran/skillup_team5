@@ -27,7 +27,7 @@ function Navbar(){
     }
 
     return(
-        <div className="navbar">
+        <nav className="navbar">
             {
                 // Nombre de usuario
                 usuario != null &&
@@ -69,7 +69,7 @@ function Navbar(){
                 <div className="linea"></div>
                 <div className="linea"></div>
             </div>
-        </div>
+        </nav>
     )
 }
 

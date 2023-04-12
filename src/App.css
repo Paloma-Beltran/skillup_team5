@@ -80,7 +80,7 @@ body{
   z-index: 100;
 }
 .navbar__usuario{
-  width: 40%;
+  width: 25%;
   height: 100%;
   display: flex;
   justify-content: flex-start;
@@ -106,7 +106,7 @@ body{
   display: none;
 }
 .navbar__contenedor{
-  width: 60%;
+  width: 75%;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
