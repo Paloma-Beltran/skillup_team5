@@ -157,6 +157,12 @@ export async function cambiarInteresUsuario(docId, uid, interesado, tipo){
     }
 }
 
+export async function cambiarVerificacionEmpresa(idEmpresa, verificada){
+    let docRef = doc(db, "usuarios", idEmpresa);
+
+    await updateDoc(docRef, { verificada });
+}
+
 //! FUNCIONES STORAGE
 export async function subirFotoPerfil(file, idUsuario){
     const storageRef = ref(storage, `fotos-perfil/perfil-${idUsuario}`);

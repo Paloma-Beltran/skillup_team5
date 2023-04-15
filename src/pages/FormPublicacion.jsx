@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { useTitle } from "../hooks/useTitle";
-import toast from 'react-hot-toast';
 import { crearCurso, crearOferta } from "../firebase";
 import { useAuth } from "../context/AuthContext";
+import toast from 'react-hot-toast';
 
 function FormPublicacion(){
     useTitle("Publicar | SkillUp");
+
+    const navigate = useNavigate();
 
     const { usuario } = useAuth(); // Para guardar el uid de la empresa en la publicación
     let [tipo, setTipo] = useState("");
@@ -20,6 +24,13 @@ function FormPublicacion(){
         etiquetas: [],
         interesados: []
     });
+
+    useEffect(() => {
+        if(usuario && !usuario.verificada){
+            navigate("/");
+            toast.error("Empresa no verificada");
+        }
+    }, [usuario])
 
     const handleSubmit = e => {
         e.preventDefault();

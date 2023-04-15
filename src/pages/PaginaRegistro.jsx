@@ -34,6 +34,7 @@ function PaginaRegistro(){
             let { user } = await registrarUsuario(datos.correo, datos.contrasena);
             
             // Datos que llevan todos los usuarios
+            //! Estos datos son los que se guardan en firestore
             let data = {
                 id: user.uid,
                 rol,
@@ -55,7 +56,8 @@ function PaginaRegistro(){
                 // Por ahora no guardamos datos específicos para las empresas
                 data = {
                     ...data,
-                    direccion: datos.direccion
+                    direccion: datos.direccion,
+                    verificada: false
                 }
             }
 

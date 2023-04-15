@@ -58,7 +58,12 @@ function Navbar(){
                         </div>
                     ) : (
                         <div className="navbar__sesion">
-                            <NavLink className="navbar__link" to={`/${usuario.rol}/${usuario.id}`} onClick={closeMenu}>Mi perfil</NavLink>
+                            {
+                                // Para ver el perfil necesitas ser usuario o empresa
+                                usuario.rol != "admin" && (
+                                    <NavLink className="navbar__link" to={`/${usuario.rol}/${usuario.id}`} onClick={closeMenu}>Mi perfil</NavLink>
+                                )
+                            }
                             <NavLink className="navbar__link" to="/" onClick={handleCerrarSesion}>Cerrar sesión</NavLink>
                         </div>
                     )

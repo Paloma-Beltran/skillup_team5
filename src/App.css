@@ -301,6 +301,18 @@ body{
   display: grid;
   grid-template-columns: 1fr 3fr;
 }
+.boton-verificar{
+  align-self: flex-end;
+  width: max-content;
+  padding: 5px 10px;
+  background: green;
+  border: 3px solid green;
+}
+.boton-verificar.verificada{
+  background: red;
+  border: 3px solid red;
+}
+.boton-verificar.verificada:hover{ background: transparent; }
 .usuario__datos{
   position: sticky;
   top: 90px;
@@ -351,6 +363,11 @@ body{
   object-fit: contain;
   border: 2px solid #aaa;
   border-radius: 50%;
+}
+.usuario__nombre{
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 .usuario__textos{
   padding: 30px;
