@@ -103,6 +103,10 @@ function PaginaEmpresa(){
                             )
                         }
                     </h2>
+                    {
+                        //! Correo que solo puede ver el admin y el dueño del perfil
+                        (usuario.rol == "admin" || uid == usuario.id) && <p className="usuario__correo">{datosUsuario.correo}</p>
+                    }
                     <p className="usuario__direccion">{datosUsuario.direccion}</p>
                 </div>
             </div>

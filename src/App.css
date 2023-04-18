@@ -369,6 +369,10 @@ body{
   align-items: center;
   gap: 5px;
 }
+.usuario__correo{
+  font-size: .9em;
+  color: #555;
+}
 .usuario__textos{
   padding: 30px;
   display: flex;

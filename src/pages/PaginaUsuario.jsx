@@ -36,6 +36,10 @@ function PaginaUsuario(){
                         )
                     }
                     <h2 className="usuario__nombre">{datosUsuario.nombre}</h2>
+                    {
+                        //! Correo que puede ver el admin, las empresas para contactarlos y el dueño del perfil
+                        (usuario.rol != "usuario" || uid == usuario.id) && <p className="usuario__correo">{datosUsuario.correo}</p>
+                    }
                     <p className="usuario__telefono"><b>Telefono:</b> {datosUsuario.telefono}</p>
                     <p className="usuario__carrera">{datosUsuario.carrera}</p>
                     <p className="usuario__centro">{datosUsuario.institucion}</p>
