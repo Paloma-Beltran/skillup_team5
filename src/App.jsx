@@ -18,6 +18,7 @@ import FormPublicacion from './pages/FormPublicacion';
 import FormEditarPerfil from './pages/FormEditarPerfil';
 
 import { Toaster } from 'react-hot-toast';
+import FormEditarPublicacion from './pages/FormEditarPublicacion';
 
 function App() {
   //! Crear un componente para suscribirse al evento onSnapshot y compartir los datos con el contexto (opcional)
@@ -48,6 +49,11 @@ function App() {
             <Route path="/publicar" element={
               <AuthProtectedRoute soloEmpresas>
                 <FormPublicacion />
+              </AuthProtectedRoute>
+            } />
+            <Route path="/editar-publicacion/:tipo/:id" element={
+              <AuthProtectedRoute soloEmpresas>
+                <FormEditarPublicacion />
               </AuthProtectedRoute>
             } />
             {/* Ruta por defecto */}

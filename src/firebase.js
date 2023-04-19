@@ -96,6 +96,17 @@ export async function obtenerPublicacion(docId, tipo){
     return { id: documento.id, datos: documento.data() }
 }
 
+// Actualizar una publicación en específico
+export async function actualizarPublicacion(datos, tipo, id){
+    let docRef;
+
+    // Se obtiene la referencia dependiendo del tipo
+    if(tipo == "oferta") docRef = doc(db, "ofertas", id);
+    else if(tipo == "curso") docRef = doc(db, "cursos", id);
+
+    await updateDoc(docRef, datos);
+}
+
 // Obtiene un usuario en específico (con cualquier rol)
 export async function obtenerUsuario(uid){
     let docRef = doc(db, "usuarios", uid);

@@ -134,9 +134,12 @@ function Publicacion({ documento: doc, tipo, actualizarEstadoDocumento=null }){
                 <p className="publicacion__estado-texto">{estado == 1 ? "Activa" : "Inactiva"}</p>
                 {
                     creador && (
-                        <button onClick={() => toggleEstado(doc.id)} className="boton publicacion__estado-boton">
-                            {estado == 1 ? "Desactivar" : "Activar"}
-                        </button>
+                        <>
+                            <button onClick={() => toggleEstado(doc.id)} className="boton publicacion__estado-boton">
+                                {estado == 1 ? "Desactivar" : "Activar"}
+                            </button>
+                            <Link className="boton publicacion__estado-boton" to={`/editar-publicacion/${tipo}/${doc.id}`}>Editar</Link>
+                        </>
                     )
                 }
             </div>

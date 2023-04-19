@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useTitle } from "../hooks/useTitle";
 import { crearCurso, crearOferta } from "../firebase";
 import { useAuth } from "../context/AuthContext";
+import { formatoDinero, formatoEtiquetas } from "../utils/formatos";
+
 import toast from 'react-hot-toast';
 
 function FormPublicacion(){
@@ -37,9 +39,9 @@ function FormPublicacion(){
 
         let nuevaPublicacion = {
             ...publicacion,
-            dinero: publicacion.dinero.replace(/[^\d.,]/g, "") || "0", // Al dinero le quitamos los caracteres no permitidos
+            dinero: formatoDinero(publicacion.dinero),
             idEmpresa: usuario.id,
-            etiquetas: publicacion.etiquetas.map(etiqueta => etiqueta.trim()) // A cada etiqueta se le quitan los espacios
+            etiquetas: formatoEtiquetas(publicacion.etiquetas)
         }
 
         // Ahora se manda a la base de datos
@@ -70,11 +72,6 @@ function FormPublicacion(){
     const handleInput = e => {
         if(e.target.name == "tipo"){
             setTipo(e.target.value);
-            return;
-        }
-
-        if(e.target.name == "etiquetas"){
-            setPublicacion({...publicacion, etiquetas: e.target.value.split(",")});
             return;
         }
 
