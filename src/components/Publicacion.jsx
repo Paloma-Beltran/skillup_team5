@@ -54,6 +54,8 @@ function Publicacion({ documento: doc, tipo, actualizarEstadoDocumento=null }){
 
     const toggleEstado = async (docId) => {
         try{
+            setMostrandoInteresados(false); // Se cierra la lista de los interesados
+
             let nuevoEstado = (estado + 1) % 2;
             // Cambiar el estado de la publicación en la base de datos
             await cambiarEstadoPublicacion(docId, nuevoEstado, tipo); 
@@ -184,7 +186,9 @@ function Publicacion({ documento: doc, tipo, actualizarEstadoDocumento=null }){
             }
             
             {/* Interesados */}
-            <ListaInteresados cargandoInteresados={cargandoInteresados} mostrandoInteresados={mostrandoInteresados} listaInteresados={listaInteresados} />
+            {
+                mostrandoInteresados && <ListaInteresados cargandoInteresados={cargandoInteresados} mostrandoInteresados={mostrandoInteresados} listaInteresados={listaInteresados} />
+            }
         </div>
     )
 }

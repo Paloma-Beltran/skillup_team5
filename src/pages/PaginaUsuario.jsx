@@ -37,8 +37,8 @@ function PaginaUsuario(){
                     }
                     <h2 className="usuario__nombre">{datosUsuario.nombre}</h2>
                     {
-                        //! Datos que puede ver el admin, las empresas para contactarlos y el dueño del perfil
-                        (usuario && (usuario.rol != "usuario" || uid == usuario.id)) ? (
+                        //! Datos que puede ver el admin, las empresas verificadas para contactarlos y el dueño del perfil
+                        (usuario && ((usuario.rol == "empresa" && usuario.verificada) || usuario.rol == "admin" || uid == usuario.id)) ? (
                             <>
                                 <p className="usuario__correo">{datosUsuario.correo}</p>
                                 <p className="usuario__telefono"><b>Telefono:</b> {datosUsuario.telefono}</p>
