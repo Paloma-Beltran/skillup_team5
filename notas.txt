@@ -4,9 +4,9 @@ Poner slogan (falta que lo pasen)
 Azul marino para color principal
 Boton iniciar sesión y registro en inicio
 
-Editar publicación
-
 Footer acerca de con la información del inicio (hasta que me pasen el slogan)
+
+Editar publicación
 
 Poner un link para el curriculum, para subirlo, hacer lo mismo que con las imagenes
 Modo oscuro (poner el azul actual)

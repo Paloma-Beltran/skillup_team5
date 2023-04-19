@@ -101,7 +101,7 @@ function Publicacion({ documento: doc, tipo, actualizarEstadoDocumento=null }){
 
             setCargandoInteresados(true);
             // Se obtiene la publicación actualizada
-            let datos = await obtenerPublicacion(docId, tipo);
+            let { datos } = await obtenerPublicacion(docId, tipo);
 
             // Si hay suficientes interesados, se recorren y se obtienen los datos
             if(datos.interesados.length > 0){

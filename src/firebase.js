@@ -89,9 +89,11 @@ export async function obtenerPublicacion(docId, tipo){
     // Se obtiene la publicacion dependiendo del tipo
     if(tipo == "oferta") docRef = doc(db, "ofertas", docId);
     else if(tipo == "curso") docRef = doc(db, "cursos", docId);
+
+    let documento = await getDoc(docRef);
     
     // Obtener el documento
-    return (await getDoc(docRef)).data();
+    return { id: documento.id, datos: documento.data() }
 }
 
 // Obtiene un usuario en específico (con cualquier rol)
