@@ -1,3 +1,24 @@
+Cambiar logo (falta que lo pasen)
+Poner slogan (falta que lo pasen)
+
+Azul marino para color principal
+Boton iniciar sesión y registro en inicio
+
+Editar publicación
+
+Footer acerca de con la información del inicio (hasta que me pasen el slogan)
+
+Poner un link para el curriculum, para subirlo, hacer lo mismo que con las imagenes
+Modo oscuro (poner el azul actual)
+
+
+
+
+
+
+
+
+
 Las empresas deben poner su número de telefono pero solo los administradores pueden verlo para pedir los datos y verificar su empresa?
 Otra opción es dejar solo el correo en el perfil, que puedan verlo los admin
 

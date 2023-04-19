@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useAuth } from "../context/AuthContext";
 import { useTitle } from "../hooks/useTitle";
@@ -275,6 +275,8 @@ function PaginaRegistro(){
                 }
 
                 <input type="submit" className="form__input form__input--boton boton" value="Registrarse" />
+                
+                <Link to="/inicio-sesion" className="form__accion-sec">Ir a inicio de sesión</Link>
             </form>
         </div>
     )

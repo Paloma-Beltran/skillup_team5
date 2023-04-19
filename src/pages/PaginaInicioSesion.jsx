@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useAuth } from "../context/AuthContext";
 import { useTitle } from "../hooks/useTitle";
@@ -48,19 +48,19 @@ function PaginaInicioSesion(){
         })
     }
 
-    const handleRestablecerContrasena = async () => {
-        if(!datos.correo) toast.error("Introduce tu correo electrónico para restablecer la contraseña");
-        
+    const handleRestablecerContrasena = async () => {        
         try{
             await restablecerContrasena(datos.correo);
 
             // console.log("Correo enviado para restablecer contraseña");
             toast.success("Correo enviado para restablecer contraseña");
         } catch(err){
-            // console.log({err});
+            console.log({err});
             
-            if(err.code == "auth/user-not-found"){
-                toast.error("Correo no encontrado");
+            if(err.code == "auth/missing-email"){
+                toast.error("Introduce tu correo electrónico para restablecer la contraseña");
+            } else if(err.code == "auth/user-not-found"){
+                toast.error("Usuario no encontrado");
             } else if(err.code == "auth/invalid-email"){
                 toast.error("Correo inválido");
             } else {
@@ -103,7 +103,8 @@ function PaginaInicioSesion(){
 
                 <input type="submit" className="form__input form__input--boton boton" value="Iniciar Sesión" />
 
-                <a href="#" className="form__restablecer" onClick={handleRestablecerContrasena}>Olvidé mi contraseña</a>
+                <span className="form__accion-sec" onClick={handleRestablecerContrasena}>Olvidé mi contraseña</span>
+                <Link to="/registro" className="form__accion-sec">Ir a registro</Link>
             </form>
         </div>
     )

@@ -1,5 +1,6 @@
 :root{
-  --color-primario: #02a;
+  /* --color-primario: #02a; */
+  --color-primario: #000080;
   --switch-inactivo: transparent;
   --switch-activo: darkgreen;
 }
@@ -369,6 +370,12 @@ body{
   align-items: center;
   gap: 5px;
 }
+.usuario__protegido{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.usuario__protegido,
 .usuario__correo{
   font-size: .9em;
   color: #555;
@@ -420,14 +427,15 @@ body{
 .form__input--boton{
   width: auto;
 }
-.form__restablecer{
+.form__accion-sec{
   margin-top: 20px;
   color: #00f;
   font-size: 1em;
   font-weight: bold;
   text-decoration: none;
+  cursor: pointer;
 }
-.form__restablecer:hover{
+.form__accion-sec:hover{
   color: #44f;
 }
 
