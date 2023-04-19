@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 
 import Navbar from './components/Navbar';
@@ -50,6 +50,8 @@ function App() {
                 <FormPublicacion />
               </AuthProtectedRoute>
             } />
+            {/* Ruta por defecto */}
+            <Route path="*" element={<Navigate to="/" replace={true} />} />
           </Routes>
         </ScrollToTop>
       </Router>
