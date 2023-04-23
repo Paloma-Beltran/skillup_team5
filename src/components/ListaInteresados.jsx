@@ -12,7 +12,7 @@ function ListaInteresados({cargandoInteresados, mostrandoInteresados, listaInter
                         <b>Interesados ({listaInteresados.length}):</b>
                         {
                             listaInteresados.map(usuarioInteresado => (
-                                <Link to={`/usuario/${usuarioInteresado.id}`} key={usuarioInteresado.id}>{usuarioInteresado.nombre}</Link>
+                                <Link className="publicacion__interesado" to={`/usuario/${usuarioInteresado.id}`} key={usuarioInteresado.id}>{usuarioInteresado.nombre}</Link>
                             ))
                         }
                     </div>

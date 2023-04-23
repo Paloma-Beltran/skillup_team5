@@ -7,7 +7,7 @@
   --texto-terciario: #555; /* normal: #555, dark-mode: #bbb */
 
   --color-primario: #000080; /* normal: #000080, dark-mode: #02a */
-  --color-secundario: #00f;
+  --color-secundario: #33f;
   --color-secundario-hover: #44f;
   --color-icono: #fff;
   
@@ -323,6 +323,9 @@ body.dark{
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+.publicacion__interesado{
+  color: var(--texto-primario);
 }
 
 /* PERFIL USUARIO */
