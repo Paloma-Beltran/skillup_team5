@@ -153,7 +153,7 @@ function FormEditarPublicacion(){
                     />
                 </div>
 
-                <input type="submit" className="form__input form__input--boton boton" value="Publicar" />
+                <input type="submit" className="form__input form__input--boton boton" value="Editar" />
             </form>
         </div>
     )

@@ -1,9 +1,10 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 import { useAuth } from "../context/AuthContext";
 
 function Navbar(){
+    const [dark, setDark] = useState(false);
     const { usuario, cerrarSesion } = useAuth();
 
     const menu = useRef();
@@ -24,6 +25,11 @@ function Navbar(){
         } catch(err){
             console.log({err});
         }
+    }
+
+    const handleTheme = () => {
+        document.body.classList.toggle("dark");
+        setDark(!dark);
     }
 
     return(
@@ -50,25 +56,43 @@ function Navbar(){
                     }
                 </div>
 
+                <div className="navbar__sesion">
+                    {
+                        usuario == null ? (
+                            <>
+                                <NavLink className="navbar__link" to="/registro" onClick={closeMenu}>Registrarse</NavLink>
+                                <NavLink className="navbar__link" to="/inicio-sesion" onClick={closeMenu}>Iniciar sesión</NavLink>
+                            </>
+                        ) : (
+                            <>
+                                {
+                                    // Para ver el perfil necesitas ser usuario o empresa
+                                    usuario.rol != "admin" && (
+                                        <NavLink className="navbar__link" to={`/${usuario.rol}/${usuario.id}`} onClick={closeMenu}>Mi perfil</NavLink>
+                                    )
+                                }
+                                <NavLink className="navbar__link" to="/" onClick={handleCerrarSesion}>Cerrar sesión</NavLink>
+                            </>
+                        )
+                    }
+                </div>
+            </div>
+            <span onClick={handleTheme} className="navbar__tema">
                 {
-                    usuario == null ? (
-                        <div className="navbar__sesion">
-                            <NavLink className="navbar__link" to="/registro" onClick={closeMenu}>Registrarse</NavLink>
-                            <NavLink className="navbar__link" to="/inicio-sesion" onClick={closeMenu}>Iniciar sesión</NavLink>
-                        </div>
+                    dark ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-brightness-2" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                            <path d="M6 6h3.5l2.5 -2.5l2.5 2.5h3.5v3.5l2.5 2.5l-2.5 2.5v3.5h-3.5l-2.5 2.5l-2.5 -2.5h-3.5v-3.5l-2.5 -2.5l2.5 -2.5z"></path>
+                        </svg>
                     ) : (
-                        <div className="navbar__sesion">
-                            {
-                                // Para ver el perfil necesitas ser usuario o empresa
-                                usuario.rol != "admin" && (
-                                    <NavLink className="navbar__link" to={`/${usuario.rol}/${usuario.id}`} onClick={closeMenu}>Mi perfil</NavLink>
-                                )
-                            }
-                            <NavLink className="navbar__link" to="/" onClick={handleCerrarSesion}>Cerrar sesión</NavLink>
-                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-moon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path>
+                        </svg>
                     )
                 }
-            </div>
+            </span>
             <div className="navbar__hamburguesa" onClick={handleMenu}>
                 <div className="linea"></div>
                 <div className="linea"></div>
