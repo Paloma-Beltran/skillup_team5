@@ -206,6 +206,7 @@ body.dark{
 }
 .empresas__link{
   text-align: center;
+  color: var(--texto-primario);
 }
 
 /* FILTROS DE PUBLICACIONES */
