@@ -121,7 +121,7 @@ export async function obtenerUsuario(uid){
 
 // Obtiene todas las empresas
 export async function obtenerEmpresas(){
-    let q = query(collection(db, "usuarios"), where("rol", "==", "empresa"));
+    let q = query(collection(db, "usuarios"), where("rol", "==", "empresa"), orderBy("fechaRegistro", "desc"));
     // Por cada documento se obtienen los datos
     let res = (await getDocs(q)).docs.map(doc => doc.data());
 
