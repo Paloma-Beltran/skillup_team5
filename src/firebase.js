@@ -34,7 +34,7 @@ async function crearDocumento(coleccion, data){
 
 async function obtenerDocumentos(coleccion){
     // Se crea la query ordenando los datos por fecha
-    let q = query(collection(db, coleccion), orderBy("fecha"));
+    let q = query(collection(db, coleccion), orderBy("fecha", "desc"));
     // Se piden los datos
     let res = await getDocs(q);
     // Se recorren las documentos y se guardan en un arreglo con objetos que contienen la id y la información

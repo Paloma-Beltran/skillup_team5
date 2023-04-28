@@ -14,11 +14,6 @@ Poner un link para el curriculum, para subirlo, hacer lo mismo que con las image
 
 
 
-Las empresas deben poner su número de telefono pero solo los administradores pueden verlo para pedir los datos y verificar su empresa?
-Otra opción es dejar solo el correo en el perfil, que puedan verlo los admin
-
-Las empresas no verificadas deben poder ver los numeros de los usuarios?
-
 
 En los metadatos de la imagen guardar el nombre del dueño (para que el administrador pueda ver desde firebase)?
 

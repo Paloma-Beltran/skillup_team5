@@ -153,6 +153,8 @@ body.dark{
 
 /* INICIO HEADER */
 .header{
+  margin: 0 auto;
+  padding: 50px 0;
   min-height: calc(100vh - 60px);
   min-height: calc(100svh - 60px);
   display: grid;
@@ -160,7 +162,6 @@ body.dark{
   justify-items: center;
   align-items: center;
   gap: 30px;
-  margin: 0 auto;
 }
 .header__img{ width: 100%; }
 .header__titulo{ font-size: 3em; }
