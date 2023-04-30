@@ -80,10 +80,17 @@ function Navbar(){
             <span onClick={handleTheme} className="navbar__tema">
                 {
                     dark ? (
-                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-brightness-2" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-brightness-up" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                             <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
-                            <path d="M6 6h3.5l2.5 -2.5l2.5 2.5h3.5v3.5l2.5 2.5l-2.5 2.5v3.5h-3.5l-2.5 2.5l-2.5 -2.5h-3.5v-3.5l-2.5 -2.5l2.5 -2.5z"></path>
+                            <path d="M12 5l0 -2"></path>
+                            <path d="M17 7l1.4 -1.4"></path>
+                            <path d="M19 12l2 0"></path>
+                            <path d="M17 17l1.4 1.4"></path>
+                            <path d="M12 19l0 2"></path>
+                            <path d="M7 17l-1.4 1.4"></path>
+                            <path d="M6 12l-2 0"></path>
+                            <path d="M7 7l-1.4 -1.4"></path>
                         </svg>
                     ) : (
                         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-moon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">

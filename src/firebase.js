@@ -115,8 +115,9 @@ export async function obtenerUsuario(uid){
 
     // Se pone la imagen que ya existe en storage guardada en la db o se pone una la imagen por defecto
     let imgUrl = data.imgUrl || `https://ui-avatars.com/api/?name=${encodeURI(data.nombre)}&background=555&color=fff&uppercase=true`;
+    let curriculumUrl = data.curriculumUrl || "";
 
-    return { ...data, imgUrl };
+    return { ...data, imgUrl, curriculumUrl };
 }
 
 // Obtiene todas las empresas
@@ -180,10 +181,10 @@ export async function cambiarVerificacionEmpresa(idEmpresa, verificada){
 export async function subirFotoPerfil(file, idUsuario){
     const storageRef = ref(storage, `fotos-perfil/perfil-${idUsuario}`);
 
-    let imgData = await uploadBytes(storageRef, file);    
+    let imgDatos = await uploadBytes(storageRef, file);
     let imgUrl = await obtenerFotoPerfil(idUsuario);
 
-    return { imgData, imgUrl };
+    return { imgDatos, imgUrl };
 }
 
 export async function obtenerFotoPerfil(idUsuario){
@@ -199,6 +200,32 @@ export async function obtenerFotoPerfil(idUsuario){
 
 export async function borrarFotoPerfil(idUsuario){
     const storageRef = ref(storage, `fotos-perfil/perfil-${idUsuario}`);
+
+    await deleteObject(storageRef);
+}
+
+export async function subirCurriculum(file, idUsuario){
+    const storageRef = ref(storage, `curriculums/perfil-${idUsuario}`);
+
+    let curriculumDatos = await uploadBytes(storageRef, file);
+    let curriculumUrl = await obtenerCurriculum(idUsuario);
+
+    return { curriculumDatos, curriculumUrl };
+}
+
+export async function obtenerCurriculum(idUsuario){
+    let storageRef = ref(storage, `curriculums/perfil-${idUsuario}`);
+
+    try{
+        return await getDownloadURL(storageRef);
+    } catch(err){
+        // console.log({err});
+        return ""
+    }
+}
+
+export async function borrarCurriculumPerfil(idUsuario){
+    let storageRef = ref(storage, `curriculums/perfil-${idUsuario}`);
 
     await deleteObject(storageRef);
 }

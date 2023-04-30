@@ -21,8 +21,6 @@ import { Toaster } from 'react-hot-toast';
 import FormEditarPublicacion from './pages/FormEditarPublicacion';
 
 function App() {
-  //! Crear un componente para suscribirse al evento onSnapshot y compartir los datos con el contexto (opcional)
-  //! También se pueden obtener los datos solo al renderizar el componente donde se utilicen
   return (
     <AuthProvider>
       <Router>

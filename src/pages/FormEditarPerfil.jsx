@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { borrarFotoPerfil, subirFotoPerfil } from "../firebase";
+import { borrarFotoPerfil, borrarCurriculumPerfil, subirCurriculum, subirFotoPerfil } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 import { useTitle } from "../hooks/useTitle";
 import { toast } from "react-hot-toast";
@@ -11,47 +11,89 @@ function FormEditarPerfil(){
 
     const navigate = useNavigate();
     const { usuario, editarPerfil, actualizarUsuario } = useAuth();
+
+    // Datos del dueño del perfil
     const [datos, setDatos] = useState(null);
-    const [file, setFile] = useState(null);
+    // Estados para subir los archivos
+    const [fileFoto, setFileFoto] = useState(null);
+    const [fileCurriculum, setFileCurriculum] = useState(null);
+    // Estado para renderizar la foto en el frontend
     const [foto, setFoto] = useState(null);
     const [borrarFoto, setBorrarFoto] = useState(false);
+    const [curriculum, setCurriculum] = useState(false); // true o false
+    const [borrarCurriculum, setBorrarCurriculum] = useState(false);
+
+    // Para guardar el "estado" de la nueva imagen y curriculum para editar el perfil y actualizar al mismo tiempo
+    // Si se utiliza useState, en el cambio entre actualización de img y curriculum todavía no se actualiza el estado
+    let urlImg, urlCurriculum;
 
     // Para cuando se obtenga el usuario al renderizar el componente
     useEffect(() => {
         setDatos(usuario);
-        if(usuario) setFoto(usuario.imgUrl);
+        if(usuario) {
+            setFoto(usuario.imgUrl);
+            setCurriculum(usuario.curriculumUrl ? true : false);
+        }
     }, [usuario])
 
+    const actualizarFoto = async () => {
+        // Subir imagen si se cambió el input file
+        urlImg = datos.imgUrl; // por defecto es la imagen que ya tenía antes
+        if(fileFoto){
+            //? Se utilizan los parentesis para que no se interprete como un bloque de código
+            //? sino como una expresión a evaluar
+            ({ imgUrl:urlImg } = await subirFotoPerfil(fileFoto, datos.id));
+            // console.log({imgDatos, imgUrl});
+        }
+
+        // Si se quiso borrar la foto, se borra del storage y de firestore
+        if(borrarFoto){
+            await borrarFotoPerfil(datos.id);
+
+            // Esto es para quitar de firestore al editar
+            urlImg = "";
+        }
+    }
+
+    const actualizarCurriculum = async () => {
+        // Subir archivo con funcion de firebase
+        urlCurriculum = datos.curriculumUrl;
+        if(fileCurriculum){
+            ({ curriculumUrl:urlCurriculum } = await subirCurriculum(fileCurriculum, datos.id));
+            // console.log({ curriculumDatos, curriculumUrl });
+        }
+
+        // Si se quiso borrar la foto, se borra del storage y de firestore
+        if(borrarCurriculum){
+            // Si no existe la foto, se ignora el error
+            try{
+                await borrarCurriculumPerfil(datos.id);
+            } catch(err){ }
+
+            // Esto es para quitar de firestore al editar
+            urlCurriculum = "";
+        }
+    }
+
     const handleSubmit = async e => {
+        // Realiza todos los cambios al perfil
         e.preventDefault();
         
         try{
-            // Si se quiso borrar la foto, se borra del storage
-            if(borrarFoto) await borrarFotoPerfil(datos.id);
+            // Se suben los archivos y se actualizan las variables para editar el perfil
+            await actualizarFoto();
+            await actualizarCurriculum();
 
-            // Subir imagen si se cambió el input file
-            let imgUrl = datos.imgUrl; // por defecto es la imagen que ya tenía antes
-            if(file){
-                //? Se utilizan los parentesis para que no se interprete como un bloque de código
-                //? sino como una expresión a evaluar
-                ({ imgUrl } = await subirFotoPerfil(file, datos.id));
-                // console.log({imgData, imgUrl});
-            }
+            // Actualizamos el perfil con la información nueva
+            // deleteField() es para cuando se borran esos archivos y así eliminar los links de firestore
+            await editarPerfil(datos.id, {
+                ...datos,
+                imgUrl: urlImg || deleteField(),
+                curriculumUrl: urlCurriculum || deleteField()
+            });
 
-            // Editar datos de perfil
-            if(!borrarFoto){
-                // Si no se borró la foto, se actualiza con la nueva url
-                // o con la misma si no se subió ningún archivo
-                await editarPerfil(datos.id, { ...datos, imgUrl });
-            } else {
-                //? Filtramos la url para que no se guarde en la base de datos ya que se obtiene desde las otras funciones
-                // Si se borró, se actualiza el documento y se quita la url
-                // para usar la que va por defecto
-                await editarPerfil(datos.id, { ...datos, imgUrl: deleteField() });
-            }
-
-            // Se actualizan los datos del usuario con la sesión activa (info e imagen)
-            actualizarUsuario(datos.id);
+            // Se actualizan los datos del usuario con la sesión activa
+            await actualizarUsuario(datos.id);
             
             // console.log("Perfil editado", datos);
             toast.success("Perfil editado correctamente");
@@ -70,24 +112,26 @@ function FormEditarPerfil(){
         })
     }
 
-    const handleInputFile = async e => {
-        // Ya no se borra la foto de storage, solo se va a actualizar
+    //? Obtiene la foto, la lee como URL y la guarda en el estado
+    const handleInputFoto = async e => {
+        // Para que no borre la foto del storage si es que antes se le dio al boton
         setBorrarFoto(false);
 
         const file = e.target.files[0];
 
-        // Se va a cambiar la imagen pero solo va a ser visual, aquí no se actualiza en storage
         let reader = new FileReader();
-
+        
         reader.onload = res => {
             let result = res.target.result;
-
+            
+            // Se va a cambiar la imagen pero solo va a ser visual, aquí no se actualiza en storage
             setFoto(result);
         }
-
+        
         reader.readAsDataURL(file);
-
-        setFile(file);
+        
+        // Se guarda el archivo para después subilo a storage
+        setFileFoto(file);
 
         // Se limpia el input para poder subir varias veces la misma imagen después de darle al boton de borrar foto
         e.target.value = "";
@@ -95,13 +139,52 @@ function FormEditarPerfil(){
 
     const handleBorrarFoto = async () => {
         // El file se limpia
-        setFile(null);
+        setFileFoto(null);
         
         // Se marca para borrar la foto de storage
         setBorrarFoto(true);
 
         // Se renderiza la imagen por defecto
         setFoto(`https://ui-avatars.com/api/?name=${encodeURI(datos.nombre)}&background=555&color=fff&uppercase=true`);
+    }
+
+    //? Obtiene el curriculum y lo guarda en el estado
+    const handleInputCurriculum = e => {
+        // Para que no borre el curriculum del storage si es que antes se le dio al boton
+        setBorrarCurriculum(false);
+
+        const file = e.target.files[0];
+        if(!file) return; // Si no subió ningún archivo, se sale
+
+        if(file.type == "application/pdf"){
+            // Aquí no se lee el archivo como URL porque no necesita renderizarlo
+            // Solamente se guarda la referencia para después subirlo a storage
+            setFileCurriculum(file);
+
+            // Se va a cambiar el estado del curriculum para renderizar los botones
+            setCurriculum(true);
+
+            toast.success("Currículum cargado correctamente");
+        } else {
+            toast.error("Solo PDF permitidos");
+        }
+
+        // Se limpia el input para poder subir varias veces la misma imagen después de darle al boton de borrar foto
+        e.target.value = "";
+    }
+
+    const handleBorrarCurriculum = async () => {
+        // El file se limpia
+        setFileCurriculum(null);
+        
+        // Se marca para borrar el curriculum de storage
+        setBorrarCurriculum(true);
+
+        // Para mostrar el mensaje de si hay curriculum o no
+        setCurriculum(false);
+
+        if(curriculum) toast.success("Eliminando curriculum");
+        else toast.error("No hay curriculum");
     }
 
     // Si todavía no se cargan los datos
@@ -116,7 +199,7 @@ function FormEditarPerfil(){
                     <img src={foto} className="formEditar__foto" alt={`Imagen de perfil de ${datos.nombre}`} />
                     <div className="formEditar__botones">
                         <label htmlFor="inpFoto" className="boton formEditar__boton">Cambiar foto de perfil</label>
-                        <input type="file" name="imagen" id="inpFoto" onInput={handleInputFile} style={{display: "none"}} />
+                        <input type="file" name="imagen" id="inpFoto" onInput={handleInputFoto} style={{display: "none"}} />
                         <button type="button" className="boton boton--rojo formEditar__boton" onClick={handleBorrarFoto}>Borrar foto</button>
                     </div>
                 </div>
@@ -205,6 +288,25 @@ function FormEditarPerfil(){
                                     value={datos.habilidades}
                                     required>
                                 </textarea>
+                            </div>
+
+                            <div className="formEditar__curriculum">
+                                <label htmlFor="inpCurriculum" className="usuario__editar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-file-upload usuario__editar-icon" width="20" height="20" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                        <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
+                                        <path d="M12 11v6"></path>
+                                        <path d="M9.5 13.5l2.5 -2.5l2.5 2.5"></path>
+                                    </svg>
+                                    Subir currículum
+                                </label>
+                                <input type="file" name="curriculum" id="inpCurriculum" onInput={handleInputCurriculum} accept=".pdf" style={{display: "none"}}></input>
+                                {
+                                    curriculum && (
+                                        <button type="button" className="boton boton--rojo formEditar__btn-curriculum" onClick={handleBorrarCurriculum}>Borrar curriculum</button>
+                                    )
+                                }
                             </div>
                         </>
                     ) : (

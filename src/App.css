@@ -142,6 +142,9 @@ body.dark{
   gap: 20px;
 }
 .navbar__tema{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: var(--texto-secundario);
   user-select: none;
   cursor: pointer;
@@ -362,7 +365,8 @@ body.dark{
   gap: 10px;
   /* text-align: center; */
 }
-.usuario__editar{
+.usuario__editar,
+.usuario__btn-curriculum{
   font-size: .9em;
   width: max-content;
   padding: 5px 10px;
@@ -372,16 +376,18 @@ body.dark{
   background: var(--color-primario);
   color: var(--texto-secundario);
   border: 2px solid var(--color-primario);
-  border-radius: 15px;
+  border-radius: 5px;
   text-decoration: none;
   transition: .2s;
 }
-.usuario__editar:hover{
+.usuario__editar:hover,
+.usuario__btn-curriculum:hover{
   --color-icono: var(--color-primario);
   background: transparent;
   color: var(--texto-primario);
 }
-.usuario__editar-icon{
+.usuario__editar-icon,
+.usuario__curriculum-icon{
   color: var(--color-icono);
   transition: .2s;
 }
@@ -494,6 +500,16 @@ body.dark{
 .formEditar__boton{
   width: 100%;
   font-size: 1em;
+}
+.formEditar__curriculum{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.formEditar__btn-curriculum{
+  padding: 5px 10px;
+  font-size: 0.9em;
 }
 
 /*! MEDIA QUERIES */

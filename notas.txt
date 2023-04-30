@@ -4,8 +4,6 @@ Boton iniciar sesión y registro en inicio
 
 Footer acerca de con la información del inicio (hasta que me pasen el slogan)
 
-Poner un link para el curriculum, para subirlo, hacer lo mismo que con las imagenes
-
 
 
 

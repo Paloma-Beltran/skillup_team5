@@ -25,7 +25,7 @@ function PaginaUsuario(){
                     {
                         // Si es dueño del perfil, se muestra el boton para editar
                         usuario != null && uid == usuario.id && (
-                            <Link to="/editar-perfil" className="usuario__editar">
+                            <Link to="/editar-perfil" className="boton usuario__editar">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-pencil usuario__editar-icon" width="20" height="20" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                     <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4"></path>
@@ -45,7 +45,7 @@ function PaginaUsuario(){
                             </>
                         ) : (
                             <p className="usuario__protegido">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-lock" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-lock" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                     <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z"></path>
                                     <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path>
@@ -57,6 +57,21 @@ function PaginaUsuario(){
                     }
                     <p className="usuario__carrera">{datosUsuario.carrera}</p>
                     <p className="usuario__centro">{datosUsuario.institucion}</p>
+                    {
+                        datosUsuario.curriculumUrl && (
+                            <Link to={datosUsuario.curriculumUrl} target="_blank" className="boton usuario__btn-curriculum">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-file-text usuario__curriculum-icon" width="20" height="20" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                    <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
+                                    <path d="M9 9l1 0"></path>
+                                    <path d="M9 13l6 0"></path>
+                                    <path d="M9 17l6 0"></path>
+                                </svg>
+                                Ver Curriculum
+                            </Link>
+                        )
+                    }
                 </div>
             </div>
             <div className="usuario__textos">
