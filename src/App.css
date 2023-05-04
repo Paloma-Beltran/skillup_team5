@@ -473,6 +473,11 @@ body.dark{
 .form__accion-sec:hover{
   color: var(--color-secundario-hover);
 }
+.form__info{
+  font-size: 0.9em;
+  text-align: center;
+  margin: 10px auto;
+}
 
 /*! FORMULARIO EDITAR PERFIL */
 .formEditar__cambiar-foto{
@@ -501,13 +506,13 @@ body.dark{
   width: 100%;
   font-size: 1em;
 }
-.formEditar__curriculum{
+.formEditar__archivo{
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
 }
-.formEditar__btn-curriculum{
+.formEditar__btn-archivo{
   padding: 5px 10px;
   font-size: 0.9em;
 }

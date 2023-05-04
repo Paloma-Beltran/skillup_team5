@@ -178,43 +178,17 @@ export async function cambiarVerificacionEmpresa(idEmpresa, verificada){
 }
 
 //! FUNCIONES STORAGE
-export async function subirFotoPerfil(file, idUsuario){
-    const storageRef = ref(storage, `fotos-perfil/perfil-${idUsuario}`);
+async function subirArchivo(file, urlFile){
+    const storageRef = ref(storage, urlFile);
 
-    let imgDatos = await uploadBytes(storageRef, file);
-    let imgUrl = await obtenerFotoPerfil(idUsuario);
+    let datos = await uploadBytes(storageRef, file);
+    let url = await obtenerArchivo(urlFile);
 
-    return { imgDatos, imgUrl };
+    return { datos, url };
 }
 
-export async function obtenerFotoPerfil(idUsuario){
-    const storageRef = ref(storage, `fotos-perfil/perfil-${idUsuario}`);
-
-    try{
-        return await getDownloadURL(storageRef);
-    } catch(err){
-        // console.log({err});
-        return "";
-    }
-}
-
-export async function borrarFotoPerfil(idUsuario){
-    const storageRef = ref(storage, `fotos-perfil/perfil-${idUsuario}`);
-
-    await deleteObject(storageRef);
-}
-
-export async function subirCurriculum(file, idUsuario){
-    const storageRef = ref(storage, `curriculums/perfil-${idUsuario}`);
-
-    let curriculumDatos = await uploadBytes(storageRef, file);
-    let curriculumUrl = await obtenerCurriculum(idUsuario);
-
-    return { curriculumDatos, curriculumUrl };
-}
-
-export async function obtenerCurriculum(idUsuario){
-    let storageRef = ref(storage, `curriculums/perfil-${idUsuario}`);
+async function obtenerArchivo(url){
+    let storageRef = ref(storage, url);
 
     try{
         return await getDownloadURL(storageRef);
@@ -224,8 +198,47 @@ export async function obtenerCurriculum(idUsuario){
     }
 }
 
-export async function borrarCurriculumPerfil(idUsuario){
-    let storageRef = ref(storage, `curriculums/perfil-${idUsuario}`);
+async function borrarArchivo(url){
+    let storageRef = ref(storage, url);
 
     await deleteObject(storageRef);
+}
+
+// Foto perfil
+export async function subirFotoPerfil(file, idUsuario){
+    return { datos:imgDatos, url:imgUrl } = await subirArchivo(file, `fotos-perfil/perfil-${idUsuario}`);
+}
+
+export async function obtenerFotoPerfil(idUsuario){
+    return await obtenerArchivo(`fotos-perfil/perfil-${idUsuario}`);
+}
+
+export async function borrarFotoPerfil(idUsuario){
+    await borrarArchivo(`fotos-perfil/perfil-${idUsuario}`);
+}
+
+// Curriculum
+export async function subirCurriculum(file, idUsuario){
+    return { datos:curriculumDatos, url:curriculumUrl } = await subirArchivo(file, `curriculums/perfil-${idUsuario}`);
+}
+
+export async function obtenerCurriculum(idUsuario){
+    return await obtenerArchivo(`curriculums/perfil-${idUsuario}`);
+}
+
+export async function borrarCurriculumPerfil(idUsuario){
+    await borrarArchivo(`curriculums/perfil-${idUsuario}`);
+}
+
+// Comprobante
+export async function subirComprobante(file, idUsuario){
+    return { datos:comprobanteDatos, url:comprobanteUrl } = await subirArchivo(file, `comprobantes/perfil-${idUsuario}`);
+}
+
+export async function obtenerComprobante(idUsuario){
+    return await obtenerArchivo(`comprobantes/perfil-${idUsuario}`);
+}
+
+export async function borrarComprobantePerfil(idUsuario){
+    await borrarArchivo(`comprobantes/perfil-${idUsuario}`);
 }

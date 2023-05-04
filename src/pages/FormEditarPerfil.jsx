@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { borrarFotoPerfil, borrarCurriculumPerfil, subirCurriculum, subirFotoPerfil } from "../firebase";
+import { borrarFotoPerfil, borrarCurriculumPerfil, subirCurriculum, subirFotoPerfil, subirComprobante, borrarComprobantePerfil } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 import { useTitle } from "../hooks/useTitle";
 import { toast } from "react-hot-toast";
@@ -14,18 +14,25 @@ function FormEditarPerfil(){
 
     // Datos del dueño del perfil
     const [datos, setDatos] = useState(null);
+
     // Estados para subir los archivos
     const [fileFoto, setFileFoto] = useState(null);
     const [fileCurriculum, setFileCurriculum] = useState(null);
+    const [fileComprobante, setFileComprobante] = useState(null);
+
     // Estado para renderizar la foto en el frontend
     const [foto, setFoto] = useState(null);
     const [borrarFoto, setBorrarFoto] = useState(false);
+    // Estado para renderizados del curriculum
     const [curriculum, setCurriculum] = useState(false); // true o false
     const [borrarCurriculum, setBorrarCurriculum] = useState(false);
+    // Estado para renderizados del comprobante
+    const [comprobante, setComprobante] = useState(false); // true o false
+    const [borrarComprobante, setBorrarComprobante] = useState(false);
 
     // Para guardar el "estado" de la nueva imagen y curriculum para editar el perfil y actualizar al mismo tiempo
     // Si se utiliza useState, en el cambio entre actualización de img y curriculum todavía no se actualiza el estado
-    let urlImg, urlCurriculum;
+    let urlImg, urlCurriculum, urlComprobante;
 
     // Para cuando se obtenga el usuario al renderizar el componente
     useEffect(() => {
@@ -33,6 +40,7 @@ function FormEditarPerfil(){
         if(usuario) {
             setFoto(usuario.imgUrl);
             setCurriculum(usuario.curriculumUrl ? true : false);
+            setComprobante(usuario.comprobanteUrl ? true : false);
         }
     }, [usuario])
 
@@ -63,15 +71,35 @@ function FormEditarPerfil(){
             // console.log({ curriculumDatos, curriculumUrl });
         }
 
-        // Si se quiso borrar la foto, se borra del storage y de firestore
+        // Si se quiso borrar el curriculum, se borra del storage y de firestore
         if(borrarCurriculum){
-            // Si no existe la foto, se ignora el error
+            // Si no existe el curriculum, se ignora el error
             try{
                 await borrarCurriculumPerfil(datos.id);
             } catch(err){ }
 
             // Esto es para quitar de firestore al editar
             urlCurriculum = "";
+        }
+    }
+
+    const actualizarComprobante = async () => {
+        // Subir archivo con funcion de firebase
+        urlComprobante = datos.comprobanteUrl;
+        if(fileComprobante){
+            ({ comprobanteUrl:urlComprobante } = await subirComprobante(fileComprobante, datos.id));
+            // console.log({ comprobanteDatos, comprobanteUrl });
+        }
+
+        // Si se quiso borrar el comprobante, se borra del storage y de firestore
+        if(borrarComprobante){
+            // Si no existe el comprobante, se ignora el error
+            try{
+                await borrarComprobantePerfil(datos.id);
+            } catch(err){ }
+
+            // Esto es para quitar de firestore al editar
+            urlComprobante = "";
         }
     }
 
@@ -82,14 +110,16 @@ function FormEditarPerfil(){
         try{
             // Se suben los archivos y se actualizan las variables para editar el perfil
             await actualizarFoto();
-            await actualizarCurriculum();
+            if(datos.rol == "usuario") await actualizarCurriculum();
+            if(datos.rol == "empresa") await actualizarComprobante();
 
             // Actualizamos el perfil con la información nueva
             // deleteField() es para cuando se borran esos archivos y así eliminar los links de firestore
             await editarPerfil(datos.id, {
                 ...datos,
                 imgUrl: urlImg || deleteField(),
-                curriculumUrl: urlCurriculum || deleteField()
+                curriculumUrl: urlCurriculum || deleteField(),
+                comprobanteUrl: urlComprobante || deleteField()
             });
 
             // Se actualizan los datos del usuario con la sesión activa
@@ -105,6 +135,7 @@ function FormEditarPerfil(){
         }
     }
 
+    //? Para la información de los inputs que no son de archivos
     const handleInput = e => {
         setDatos({
             ...datos,
@@ -169,7 +200,7 @@ function FormEditarPerfil(){
             toast.error("Solo PDF permitidos");
         }
 
-        // Se limpia el input para poder subir varias veces la misma imagen después de darle al boton de borrar foto
+        // Se limpia el input para poder subir varias veces el mismo archivo después de darle al boton de borrar
         e.target.value = "";
     }
 
@@ -185,6 +216,45 @@ function FormEditarPerfil(){
 
         if(curriculum) toast.success("Eliminando curriculum");
         else toast.error("No hay curriculum");
+    }
+
+    //? Obtiene el comprobante y lo guarda en el estado
+    const handleInputComprobante = e => {
+        // Para que no borre el comprobante del storage si es que antes se le dio al boton
+        setBorrarComprobante(false);
+
+        const file = e.target.files[0];
+        if(!file) return; // Si no subió ningún archivo, se sale
+
+        if(file.type == "application/pdf"){
+            // Aquí no se lee el archivo como URL porque no necesita renderizarlo
+            // Solamente se guarda la referencia para después subirlo a storage
+            setFileComprobante(file);
+
+            // Se va a cambiar el estado del comprobante para renderizar los botones
+            setComprobante(true);
+
+            toast.success("Comprobante cargado correctamente");
+        } else {
+            toast.error("Solo PDF permitidos");
+        }
+
+        // Se limpia el input para poder subir varias veces el mismo archivo después de darle al boton de borrar
+        e.target.value = "";
+    }
+
+    const handleBorrarComprobante = async () => {
+        // El file se limpia
+        setFileComprobante(null);
+        
+        // Se marca para borrar el comprobante de storage
+        setBorrarComprobante(true);
+
+        // Para mostrar el mensaje de si hay comprobante o no
+        setComprobante(false);
+
+        if(comprobante) toast.success("Eliminando comprobante");
+        else toast.error("No hay comprobante");
     }
 
     // Si todavía no se cargan los datos
@@ -290,7 +360,7 @@ function FormEditarPerfil(){
                                 </textarea>
                             </div>
 
-                            <div className="formEditar__curriculum">
+                            <div className="formEditar__archivo">
                                 <label htmlFor="inpCurriculum" className="usuario__editar">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-file-upload usuario__editar-icon" width="20" height="20" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -304,7 +374,7 @@ function FormEditarPerfil(){
                                 <input type="file" name="curriculum" id="inpCurriculum" onInput={handleInputCurriculum} accept=".pdf" style={{display: "none"}}></input>
                                 {
                                     curriculum && (
-                                        <button type="button" className="boton boton--rojo formEditar__btn-curriculum" onClick={handleBorrarCurriculum}>Borrar curriculum</button>
+                                        <button type="button" className="boton boton--rojo formEditar__btn-archivo" onClick={handleBorrarCurriculum}>Borrar curriculum</button>
                                     )
                                 }
                             </div>
@@ -350,6 +420,26 @@ function FormEditarPerfil(){
                                     required>
                                 </textarea>
                             </div>
+
+                            <div className="formEditar__archivo">
+                                <label htmlFor="inpComprobante" className="usuario__editar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-file-upload usuario__editar-icon" width="20" height="20" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                        <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
+                                        <path d="M12 11v6"></path>
+                                        <path d="M9.5 13.5l2.5 -2.5l2.5 2.5"></path>
+                                    </svg>
+                                    Subir RFC o comprobante de domicilio
+                                </label>
+                                <input type="file" name="comprobante" id="inpComprobante" onInput={handleInputComprobante} accept=".pdf" style={{display: "none"}}></input>
+                                {
+                                    comprobante && (
+                                        <button type="button" className="boton boton--rojo formEditar__btn-archivo" onClick={handleBorrarComprobante}>Borrar Comprobante</button>
+                                    )
+                                }
+                            </div>
+                            <p className="form__info">El proceso de verificación mediante un comprobante nos ayuda a garantizar la autenticidad y legalidad de las empresas</p>
                         </>
                     )
                 }
