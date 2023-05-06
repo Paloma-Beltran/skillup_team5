@@ -207,7 +207,7 @@ async function borrarArchivo(url){
 
 // Foto perfil
 export async function subirFotoPerfil(file, idUsuario){
-    return { datos:imgDatos, url:imgUrl } = await subirArchivo(file, `fotos-perfil/perfil-${idUsuario}`);
+    return await subirArchivo(file, `fotos-perfil/perfil-${idUsuario}`);
 }
 
 export async function obtenerFotoPerfil(idUsuario){
@@ -220,7 +220,7 @@ export async function borrarFotoPerfil(idUsuario){
 
 // Curriculum
 export async function subirCurriculum(file, idUsuario){
-    return { datos:curriculumDatos, url:curriculumUrl } = await subirArchivo(file, `curriculums/perfil-${idUsuario}`);
+    return await subirArchivo(file, `curriculums/perfil-${idUsuario}`);
 }
 
 export async function obtenerCurriculum(idUsuario){
@@ -233,7 +233,7 @@ export async function borrarCurriculumPerfil(idUsuario){
 
 // Comprobante
 export async function subirComprobante(file, idUsuario){
-    return { datos:comprobanteDatos, url:comprobanteUrl } = await subirArchivo(file, `comprobantes/perfil-${idUsuario}`);
+    return await subirArchivo(file, `comprobantes/perfil-${idUsuario}`);
 }
 
 export async function obtenerComprobante(idUsuario){

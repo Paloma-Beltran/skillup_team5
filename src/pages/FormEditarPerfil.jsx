@@ -50,8 +50,8 @@ function FormEditarPerfil(){
         if(fileFoto){
             //? Se utilizan los parentesis para que no se interprete como un bloque de código
             //? sino como una expresión a evaluar
-            ({ imgUrl:urlImg } = await subirFotoPerfil(fileFoto, datos.id));
-            // console.log({imgDatos, imgUrl});
+            ({ url:urlImg } = await subirFotoPerfil(fileFoto, datos.id));
+            // console.log({datosImg, urlImg});
         }
 
         // Si se quiso borrar la foto, se borra del storage y de firestore
@@ -67,8 +67,8 @@ function FormEditarPerfil(){
         // Subir archivo con funcion de firebase
         urlCurriculum = datos.curriculumUrl;
         if(fileCurriculum){
-            ({ curriculumUrl:urlCurriculum } = await subirCurriculum(fileCurriculum, datos.id));
-            // console.log({ curriculumDatos, curriculumUrl });
+            ({ url:urlCurriculum } = await subirCurriculum(fileCurriculum, datos.id));
+            // console.log({ datosCurriculum, urlCurriculum });
         }
 
         // Si se quiso borrar el curriculum, se borra del storage y de firestore
@@ -87,8 +87,8 @@ function FormEditarPerfil(){
         // Subir archivo con funcion de firebase
         urlComprobante = datos.comprobanteUrl;
         if(fileComprobante){
-            ({ comprobanteUrl:urlComprobante } = await subirComprobante(fileComprobante, datos.id));
-            // console.log({ comprobanteDatos, comprobanteUrl });
+            ({ url:urlComprobante } = await subirComprobante(fileComprobante, datos.id));
+            // console.log({ datosComprobante, urlComprobante });
         }
 
         // Si se quiso borrar el comprobante, se borra del storage y de firestore
@@ -130,7 +130,7 @@ function FormEditarPerfil(){
             
             navigate(`/${datos.rol}/${datos.id}`);
         } catch(err){
-            // console.log({err});
+            console.log({err});
             toast.error("Hubo un error");
         }
     }
