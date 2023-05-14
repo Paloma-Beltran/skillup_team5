@@ -130,7 +130,7 @@ function FormEditarPerfil(){
             
             navigate(`/${datos.rol}/${datos.id}`);
         } catch(err){
-            console.log({err});
+            // console.log({err});
             toast.error("Hubo un error");
         }
     }

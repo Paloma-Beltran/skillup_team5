@@ -58,7 +58,7 @@ function PaginaUsuario(){
                     <p className="usuario__carrera">{datosUsuario.carrera}</p>
                     <p className="usuario__centro">{datosUsuario.institucion}</p>
                     {
-                        datosUsuario.curriculumUrl && (
+                        datosUsuario.curriculumUrl ? (
                             <Link to={datosUsuario.curriculumUrl} target="_blank" className="boton usuario__btn-curriculum">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-file-text usuario__curriculum-icon" width="20" height="20" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -70,6 +70,8 @@ function PaginaUsuario(){
                                 </svg>
                                 Ver Curriculum
                             </Link>
+                        ) : (
+                            <p className="usuario__protegido">Sin currículum</p>
                         )
                     }
                 </div>
