@@ -114,9 +114,9 @@ export async function obtenerUsuario(uid){
     let data = documento.data();
 
     // Se pone la imagen que ya existe en storage guardada en la db o se pone una la imagen por defecto
-    let imgUrl = data.imgUrl || `https://ui-avatars.com/api/?name=${encodeURI(data.nombre)}&background=555&color=fff&uppercase=true`;
-    let curriculumUrl = data.curriculumUrl || "";
-    let comprobanteUrl = data.comprobanteUrl || "";
+    let imgUrl = data?.imgUrl || `https://ui-avatars.com/api/?name=${encodeURI(data?.nombre)}&background=555&color=fff&uppercase=true`;
+    let curriculumUrl = data?.curriculumUrl || "";
+    let comprobanteUrl = data?.comprobanteUrl || "";
 
     return { ...data, imgUrl, curriculumUrl, comprobanteUrl };
 }
