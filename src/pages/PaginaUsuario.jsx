@@ -58,20 +58,23 @@ function PaginaUsuario(){
                     <p className="usuario__carrera">{datosUsuario.carrera}</p>
                     <p className="usuario__centro">{datosUsuario.institucion}</p>
                     {
-                        datosUsuario.curriculumUrl ? (
-                            <Link to={datosUsuario.curriculumUrl} target="_blank" className="boton usuario__btn-curriculum">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-file-text usuario__curriculum-icon" width="20" height="20" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
-                                    <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
-                                    <path d="M9 9l1 0"></path>
-                                    <path d="M9 13l6 0"></path>
-                                    <path d="M9 17l6 0"></path>
-                                </svg>
-                                Ver Curriculum
-                            </Link>
-                        ) : (
-                            <p className="usuario__protegido">Sin currículum</p>
+                        //! Datos que puede ver el admin, las empresas verificadas para contactarlos y el dueño del perfil
+                        usuario && ((usuario.rol == "empresa" && usuario.verificada) || usuario.rol == "admin" || uid == usuario.id) && (
+                            datosUsuario.curriculumUrl ? (
+                                <Link to={datosUsuario.curriculumUrl} target="_blank" className="boton usuario__btn-curriculum">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-file-text usuario__curriculum-icon" width="20" height="20" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                        <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
+                                        <path d="M9 9l1 0"></path>
+                                        <path d="M9 13l6 0"></path>
+                                        <path d="M9 17l6 0"></path>
+                                    </svg>
+                                    Ver Curriculum
+                                </Link>
+                            ) : (
+                                <p className="usuario__protegido">Sin currículum</p>
+                            )
                         )
                     }
                 </div>
