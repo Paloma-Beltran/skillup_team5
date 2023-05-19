@@ -269,7 +269,7 @@ function FormEditarPerfil(){
                     <img src={foto} className="formEditar__foto" alt={`Imagen de perfil de ${datos.nombre}`} />
                     <div className="formEditar__botones">
                         <label htmlFor="inpFoto" className="boton formEditar__boton">Cambiar foto de perfil</label>
-                        <input type="file" name="imagen" id="inpFoto" onInput={handleInputFoto} style={{display: "none"}} />
+                        <input type="file" name="imagen" id="inpFoto" onInput={handleInputFoto} accept=".png,.jpg,.jpeg" style={{display: "none"}} />
                         <button type="button" className="boton boton--rojo formEditar__boton" onClick={handleBorrarFoto}>Borrar foto</button>
                     </div>
                 </div>
