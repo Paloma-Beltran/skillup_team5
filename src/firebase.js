@@ -202,7 +202,12 @@ async function obtenerArchivo(url){
 async function borrarArchivo(url){
     let storageRef = ref(storage, url);
 
-    await deleteObject(storageRef);
+    // Si no existe la foto, se deja pasar el error sin hacer nada
+    try{
+        await deleteObject(storageRef);
+    } catch(err){
+        // console.log({err});
+    }
 }
 
 // Foto perfil

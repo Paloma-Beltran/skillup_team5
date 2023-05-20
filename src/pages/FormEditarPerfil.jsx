@@ -150,19 +150,24 @@ function FormEditarPerfil(){
 
         const file = e.target.files[0];
 
-        let reader = new FileReader();
+        // Si el tipo de la imagen no es correcto, no hace nada
+        if(file.type == "image/png" || file.type == "image/jpeg"){
+            let reader = new FileReader();
         
-        reader.onload = res => {
-            let result = res.target.result;
+            reader.onload = res => {
+                let result = res.target.result;
+                
+                // Se va a cambiar la imagen pero solo va a ser visual, aquí no se actualiza en storage
+                setFoto(result);
+            }
             
-            // Se va a cambiar la imagen pero solo va a ser visual, aquí no se actualiza en storage
-            setFoto(result);
+            reader.readAsDataURL(file);
+            
+            // Se guarda el archivo para después subilo a storage
+            setFileFoto(file);
+        } else {
+            toast.error("Solo PNG, JPG y JPEG permitidos");
         }
-        
-        reader.readAsDataURL(file);
-        
-        // Se guarda el archivo para después subilo a storage
-        setFileFoto(file);
 
         // Se limpia el input para poder subir varias veces la misma imagen después de darle al boton de borrar foto
         e.target.value = "";
