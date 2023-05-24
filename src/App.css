@@ -581,6 +581,7 @@ body.dark{
     position: inherit;
     flex-direction: row;
   }
+  .usuario__textos{ padding: 30px 0; }
 }
 
 @media screen and (max-width: 425px){
