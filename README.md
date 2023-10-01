@@ -1,7 +1,7 @@
 # Skillup
 
 ## Instalación
-1. Descargar el proyecto
+1. Descargar el proyect
 2. Entrar a la carpeta
 
 Instalar las dependencias
