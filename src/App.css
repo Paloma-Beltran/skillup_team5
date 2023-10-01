@@ -1,4 +1,91 @@
+:root{
+  --fondo: #fff; /* normal: #fff, dark-mode: #222 */
+  --fondo-secundario: #eee; /* normal: #eee, dark-mode: #000 */
+  
+  --texto-primario: #000; /* normal: #000, dark-mode: #fff */
+  --texto-secundario: #fff;
+  --texto-terciario: #555; /* normal: #555, dark-mode: #bbb */
 
+  --color-primario: #000080; /* normal: #000080, dark-mode: #02a */
+  --color-secundario: #33f;
+  --color-secundario-hover: #44f;
+  --color-icono: #fff;
+  
+  --switch-inactivo: transparent;
+  --switch-activo: #006400;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  min-height: 100vh;
+  font-family: sans-serif;
+  padding-top: 60px;
+  background: var(--fondo);
+  color: var(--texto-primario);
+}
+body.dark{
+  --fondo: #222; /* normal: #fff, dark-mode: #222 */
+  --fondo-secundario: #000; /* normal: #eee, dark-mode: #000 */
+  
+  --texto-primario: #fff; /* normal: #000, dark-mode: #fff */
+  --texto-terciario: #bbb; /* normal: #555, dark-mode: #bbb */
+
+  --color-primario: #02a; /* normal: #000080, dark-mode: #02a */
+}
+
+.contenedor{
+  width: 80%;
+  max-width: 1000px;
+  margin: 30px auto;
+}
+.titulo{
+  text-align: center;
+  padding-bottom: 30px;
+}
+.boton{
+  padding: 10px 20px;
+  background: var(--color-primario);
+  color: var(--texto-secundario);
+  border: 3px solid var(--color-primario);
+  border-radius: 5px;
+  text-decoration: none;
+  transition: .2s;
+}
+.boton:hover{
+  background: transparent;
+  color: var(--texto-primario);
+}
+.boton--rojo{
+  background: #f00;
+  border: 3px solid #f00;
+}
+.switch{
+  appearance: none;
+  position: relative;
+  padding: 10px 20px;
+  background: var(--switch-inactivo);
+  border: 1px solid var(--texto-secundario);
+  border-radius: 20px;
+  transition: .3s;
+  outline: none;
+}
+.switch::after{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px;
+  background: var(--texto-secundario);
+  border-radius: 50%;
+  transition: .3s;
+}
+.switch:checked{ background: var(--switch-activo); }
+.switch:checked::after{ left: 50%; }
 
 /* NAVBAR */
 .navbar{
