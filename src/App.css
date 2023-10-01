@@ -1,5 +1,5 @@
 :root{
-  --fondo: #fff; /* normal: #fff, dark-mode: #222 */
+  --fondo: #fff;
   --fondo-secundario: #eee; /* normal: #eee, dark-mode: #000 */
   
   --texto-primario: #000; /* normal: #000, dark-mode: #fff */
